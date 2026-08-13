@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  website:
+    image: nginx:alpine
+    container_name: website
+    restart: unless-stopped
+
+    ports:
+      - "8088:80"
+
+    volumes:
+      - /volume1/docker/website:/usr/share/nginx/html:ro
+
+    environment:
+      - TZ=Asia/Kolkata
