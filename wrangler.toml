@@ -1,0 +1,12 @@
+name = "vedsingh-home"
+main = "src/index.js"
+compatibility_date = "2026-08-12"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[vars]
+KUMA_URL = "https://status.vedsingh.com"
+KUMA_SLUG = "vsnas"
+JELLYFIN_URL = "https://movies.vedsingh.com"

@@ -1,32 +1,33 @@
-# vedsingh.com
+# Ved Singh 2099 v2
 
-Static personal service hub for `vedsingh.com`.
-
-## Files
-
-- `index.html` — page structure and service links
-- `style.css` — responsive multiverse design
-- `script.js` — random landing theme + occasional automatic universe changes
-- `wrangler.jsonc` — Cloudflare Worker static-assets deployment
-- `docker-compose.yml` — optional NAS/Nginx copy on port 8088
-- `assets/` — put images/icons here if needed
-
-## Themes
-
-- Earth-616 — clean/classic
-- Earth-1610 — cell-shaded/comic
-- Earth-928 — Spider-Man 2099 inspired
-- Earth-90214 — Noir
-
-A fresh page/tab starts on a random universe. While left open, the theme changes at a random interval between 12 and 24 minutes.
+This is the rewritten version with the command palette bug fixed.
 
 ## Deploy
+1. Open PowerShell in this folder.
+2. `npm.cmd install`
+3. `npx.cmd wrangler login`
+4. `npx.cmd wrangler secret put JELLYFIN_API_KEY`
+5. `npx.cmd wrangler deploy`
 
-Commit and push to `main`. Cloudflare's Git integration can deploy the site automatically.
+The search palette now closes by:
+- clicking Esc
+- pressing keyboard Esc
+- clicking outside the panel
+- navigating to a result
 
-The NAS copy can be updated with:
+After deployment, hard refresh with Ctrl+Shift+R.
 
-```bash
-cd /volume1/docker/website
-git pull
-```
+
+## Spider-Verse universe cycling
+
+The homepage now cycles automatically every 22 seconds through:
+- Earth-2099 — futuristic neon cyber interface
+- Earth-1610 — cel-shaded comic-book/halftone interface
+- Earth-616 — clean, plain, classic interface
+- Spider-Noir — true monochrome black-and-white film-noir interface
+
+You can also:
+- use the arrows under the universe card
+- click the 2099/Universe sigil
+- type `2099`, `1610`, `616`, or `noir` in Ctrl/Cmd+K
+- the selected universe is remembered in the browser
