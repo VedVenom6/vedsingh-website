@@ -21,6 +21,12 @@ const commands = [
     keys: "music navidrome songs albums"
   },
   {
+    label: "Add Music",
+    hint: "Aurral",
+    url: "https://musicrequest.vedsingh.com",
+    keys: "add request music aurral lidarr albums artists"
+  },
+  {
     label: "Books & Comics",
     hint: "Kavita",
     url: "https://books.vedsingh.com",
@@ -176,6 +182,19 @@ async function loadStatus() {
       ])
     );
 
+    const findMonitor = expectedName => {
+      const expected = normalize(expectedName);
+
+      if (byName.has(expected)) {
+        return byName.get(expected);
+      }
+
+      return monitors.find(monitor => {
+        const actual = normalize(monitor.name);
+        return actual.includes(expected) || expected.includes(actual);
+      });
+    };
+
     let online = 0;
     let degraded = 0;
     let offline = 0;
@@ -191,8 +210,8 @@ async function loadStatus() {
     });
 
     $$(".service-card").forEach(card => {
-      const monitor = byName.get(
-        normalize(card.dataset.monitor)
+      const monitor = findMonitor(
+        card.dataset.monitor
       );
 
       const state = monitor?.state || "warn";
