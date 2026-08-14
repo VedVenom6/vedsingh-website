@@ -23,7 +23,7 @@ const commands = [
   {
     label: "Add Music",
     hint: "Aurral",
-    url: "https://musicrequest.vedsingh.com",
+    url: "https://aurral.vedsingh.com",
     keys: "add request music aurral lidarr albums artists"
   },
   {
