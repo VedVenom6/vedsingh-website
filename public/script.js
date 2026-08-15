@@ -5,7 +5,7 @@ const commands = [
   {
     label: "Movies & TV",
     hint: "Jellyfin",
-    url: "https://movies.vedsingh.com",
+    url: "/movies",
     keys: "movies tv jellyfin watch"
   },
   {
@@ -17,7 +17,7 @@ const commands = [
   {
     label: "Music",
     hint: "Navidrome",
-    url: "https://music.vedsingh.com",
+    url: "/music",
     keys: "music navidrome songs albums"
   },
   {
@@ -29,25 +29,25 @@ const commands = [
   {
     label: "Books & Comics",
     hint: "Kavita",
-    url: "https://books.vedsingh.com",
+    url: "/books",
     keys: "books comics manga kavita"
   },
   {
     label: "Audiobooks",
     hint: "Audiobookshelf",
-    url: "https://audiobooks.vedsingh.com",
+    url: "/audiobooks",
     keys: "audiobooks listen"
   },
   {
     label: "Games",
     hint: "RetroAssembly",
-    url: "https://games.vedsingh.com",
+    url: "/games",
     keys: "games retroassembly roms play"
   },
   {
     label: "System Status",
     hint: "Uptime Kuma",
-    url: "https://status.vedsingh.com",
+    url: "/status",
     keys: "status uptime health"
   }
 ];
@@ -427,26 +427,11 @@ async function loadActivity() {
    ========================================================= */
 
 const recentSources = {
-  movies: {
-    label: "Movies & TV",
-    url: "https://movies.vedsingh.com"
-  },
-  music: {
-    label: "Music",
-    url: "https://music.vedsingh.com"
-  },
-  books: {
-    label: "Books & Comics",
-    url: "https://books.vedsingh.com"
-  },
-  audiobooks: {
-    label: "Audiobooks",
-    url: "https://audiobooks.vedsingh.com"
-  },
-  games: {
-    label: "Games",
-    url: "https://games.vedsingh.com"
-  }
+  movies: { label: "Movies & TV", url: "/movies" },
+  music: { label: "Music", url: "/music" },
+  books: { label: "Books & Comics", url: "/books" },
+  audiobooks: { label: "Audiobooks", url: "/audiobooks" },
+  games: { label: "Games", url: "/games" }
 };
 
 let recentSource = "movies";
@@ -564,49 +549,143 @@ async function loadRecent(source = recentSource) {
 
 
 /* =========================================================
-   PORTAL TABS
+   ROUTED PORTAL PAGES
    ========================================================= */
 
+const portalRoutes = {
+  "/movies": {
+    key: "movies",
+    kicker: "WATCH",
+    title: "Movies & TV",
+    description: "Your Jellyfin library, inside the Ved Singh portal.",
+    serviceName: "Jellyfin",
+    embed: "https://movies.vedsingh.com",
+    direct: "https://movies.vedsingh.com",
+    secondaryLabel: "Request Something ＋",
+    secondaryUrl: "https://seerr.vedsingh.com"
+  },
+  "/music": {
+    key: "music",
+    kicker: "LISTEN",
+    title: "Music",
+    description: "Navidrome stays below the same portal navigation.",
+    serviceName: "Navidrome",
+    embed: "https://music.vedsingh.com",
+    direct: "https://music.vedsingh.com",
+    secondaryLabel: "Add Music ＋",
+    secondaryUrl: "https://aurral.vedsingh.com"
+  },
+  "/books": {
+    key: "books",
+    kicker: "READ",
+    title: "Books & Comics",
+    description: "Browse Kavita without leaving the Ved Singh shell.",
+    serviceName: "Kavita",
+    embed: "https://books.vedsingh.com",
+    direct: "https://books.vedsingh.com"
+  },
+  "/audiobooks": {
+    key: "audiobooks",
+    kicker: "LISTEN",
+    title: "Audiobooks",
+    description: "Audiobookshelf embedded beneath your persistent navigation.",
+    serviceName: "Audiobookshelf",
+    embed: "https://audiobooks.vedsingh.com",
+    direct: "https://audiobooks.vedsingh.com"
+  },
+  "/games": {
+    key: "games",
+    kicker: "PLAY",
+    title: "Games",
+    description: "RetroAssembly lives here as the gaming section of the portal.",
+    serviceName: "RetroAssembly",
+    embed: "https://games.vedsingh.com",
+    direct: "https://games.vedsingh.com"
+  },
+  "/status": {
+    key: "status",
+    kicker: "NETWORK",
+    title: "Status",
+    description: "Uptime Kuma and the full service-health view.",
+    serviceName: "Uptime Kuma",
+    embed: "https://status.vedsingh.com",
+    direct: "https://status.vedsingh.com"
+  }
+};
+
+function normalizedPath() {
+  const raw = window.location.pathname.replace(/\/+$/, "");
+  return raw || "/";
+}
+
 function activatePortalTab(name) {
-  $$(".portal-tab").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.portal === name
-    );
+  $$(".portal-tab").forEach(link => {
+    const active = link.dataset.portal === name;
+    link.classList.toggle("active", active);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
   });
 }
 
-function handlePortalTab(name) {
-  activatePortalTab(name);
+function loadPortalRoute() {
+  const path = normalizedPath();
+  const config = portalRoutes[path];
 
-  if (name === "home") {
-    $("#home")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!config) {
+    document.body.classList.remove("service-route");
+    activatePortalTab("home");
     return;
   }
 
-  if (name === "status") {
-    $("#statusPulse")?.scrollIntoView({ behavior: "smooth", block: "center" });
-    return;
+  document.body.classList.add("service-route");
+  activatePortalTab(config.key);
+
+  const title = $("#routeTitle");
+  const kicker = $("#routeKicker");
+  const description = $("#routeDescription");
+  const direct = $("#routeDirect");
+  const secondary = $("#routeSecondary");
+  const frame = $("#serviceFrame");
+  const frameName = $("#frameServiceName");
+
+  if (title) title.textContent = config.title;
+  if (kicker) kicker.textContent = config.kicker;
+  if (description) description.textContent = config.description;
+  if (frameName) frameName.textContent = config.serviceName;
+
+  if (direct) {
+    direct.href = config.direct;
+    direct.setAttribute("aria-label", `Open ${config.serviceName} directly`);
   }
 
-  if (recentSources[name]) {
-    setRecentSource(name, true);
+  if (secondary) {
+    if (config.secondaryUrl) {
+      secondary.hidden = false;
+      secondary.href = config.secondaryUrl;
+      secondary.textContent = config.secondaryLabel;
+    } else {
+      secondary.hidden = true;
+      secondary.removeAttribute("href");
+      secondary.textContent = "";
+    }
   }
+
+  if (frame) {
+    frame.title = `${config.serviceName} embedded application`;
+    frame.src = config.embed;
+  }
+
+  document.title = "Ved Singh";
+  window.scrollTo(0, 0);
 }
 
 $$(".media-tab").forEach(button => {
   button.addEventListener("click", () => {
     setRecentSource(button.dataset.recentSource);
-    const source = button.dataset.recentSource;
-    activatePortalTab(source);
   });
 });
 
-$$(".portal-tab").forEach(button => {
-  button.addEventListener("click", () => {
-    handlePortalTab(button.dataset.portal);
-  });
-});
+loadPortalRoute();
 
 
 /* =========================================================

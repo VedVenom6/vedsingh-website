@@ -24,6 +24,21 @@ export default {
       return mediaImage(env, url.searchParams);
     }
 
+    const portalPath = url.pathname.replace(/\/+$/, "") || "/";
+    const portalRoutes = new Set([
+      "/movies",
+      "/music",
+      "/books",
+      "/audiobooks",
+      "/games",
+      "/status"
+    ]);
+
+    if (portalRoutes.has(portalPath)) {
+      const indexUrl = new URL("/index.html", url);
+      return env.ASSETS.fetch(new Request(indexUrl, request));
+    }
+
     // Preserve the old API routes for compatibility.
     if (url.pathname === "/api/jellyfin/recent") {
       const limit = Math.min(Math.max(Number(url.searchParams.get("limit") || 8), 1), 20);

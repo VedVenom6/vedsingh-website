@@ -35,3 +35,17 @@ git push
 Your Cloudflare Git connection should deploy the pushed commit.
 
 After deployment, hard refresh with `Ctrl+Shift+R`.
+
+
+## Routed service pages
+
+The top navigation now uses real portal URLs while keeping the Ved Singh shell visible:
+
+- `/movies` → Jellyfin
+- `/music` → Navidrome
+- `/books` → Kavita
+- `/audiobooks` → Audiobookshelf
+- `/games` → RetroAssembly
+- `/status` → Uptime Kuma
+
+The service itself is loaded underneath the persistent header/navigation using an iframe. Every page includes an **Open directly** fallback because a service can refuse iframe embedding through its own `X-Frame-Options` or `Content-Security-Policy`.
