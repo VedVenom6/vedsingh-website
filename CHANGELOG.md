@@ -1,5 +1,10 @@
 # Ved Singh Portal Version History
 
+## 1.5.2
+- Changed the Music routed page back to the canonical public URL: `https://music.vedsingh.com`
+- Kept Navidrome API calls on `/music` because the server uses `ND_BASEURL=/music`
+- No feature redesign; this is a patch release
+
 ## 1.5.1
 - Fixed top navigation routes returning to Home on Cloudflare
 - `/movies`, `/music`, `/books`, `/audiobooks`, `/games`, and `/status` now keep their routed URL while serving the portal shell

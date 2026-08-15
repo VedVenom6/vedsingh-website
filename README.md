@@ -1,4 +1,4 @@
-# Ved Singh Portal — v1.5.1
+# Ved Singh Portal — v1.5.2
 
 Production architecture:
 
