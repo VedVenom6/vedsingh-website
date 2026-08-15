@@ -1,5 +1,10 @@
 # Ved Singh Portal Version History
 
+## 1.5.1
+- Fixed top navigation routes returning to Home on Cloudflare
+- `/movies`, `/music`, `/books`, `/audiobooks`, `/games`, and `/status` now keep their routed URL while serving the portal shell
+- No feature redesign; this is a patch release
+
 ## 1.5.0
 - Real routed service pages under the persistent Ved Singh shell
 - Navigation links hardened so `/movies`, `/music`, `/books`, `/audiobooks`, `/games`, and `/status` work as real pages

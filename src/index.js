@@ -35,8 +35,14 @@ export default {
     ]);
 
     if (portalRoutes.has(portalPath)) {
-      const indexUrl = new URL("/index.html", url);
-      return env.ASSETS.fetch(new Request(indexUrl, request));
+      // Serve the homepage shell without redirecting the browser back to "/".
+      const shellUrl = new URL("/", url);
+      const shellResponse = await env.ASSETS.fetch(new Request(shellUrl, request));
+
+      return new Response(shellResponse.body, {
+        status: 200,
+        headers: shellResponse.headers
+      });
     }
 
     // Preserve the old API routes for compatibility.
