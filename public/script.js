@@ -39,6 +39,12 @@ const commands = [
     keys: "audiobooks listen"
   },
   {
+    label: "Games",
+    hint: "RetroAssembly",
+    url: "https://games.vedsingh.com",
+    keys: "games retroassembly roms play"
+  },
+  {
     label: "System Status",
     hint: "Uptime Kuma",
     url: "https://status.vedsingh.com",
@@ -54,7 +60,7 @@ const universes = [
     node: "SPIDER-NET NODE",
     footer: "Earth-928 // 2099 interface",
     line:
-      "Movies, music, books, audiobooks, requests, and server status — connected through one futuristic 2099 control deck."
+      "Movies, music, books, audiobooks, games, requests, and server status — connected through one futuristic 2099 control deck."
   },
   {
     id: "1610",
@@ -171,9 +177,20 @@ async function loadStatus() {
   try {
     const data = await getJSON("/api/status");
 
-    const monitors = Array.isArray(data.monitors)
+    const retiredMonitorNames = new Set([
+      "mylar3",
+      "shelfarr",
+      "syncthing",
+      "adguardhome",
+      "adguard home"
+    ]);
+
+    const monitors = (Array.isArray(data.monitors)
       ? data.monitors
-      : [];
+      : []
+    ).filter(monitor =>
+      !retiredMonitorNames.has(normalize(monitor.name))
+    );
 
     const byName = new Map(
       monitors.map(monitor => [
@@ -252,10 +269,21 @@ async function loadStatus() {
       $("#pulseOffline").textContent = offline;
     }
 
+    const uptimeValues = monitors
+      .map(monitor => Number(monitor.uptime))
+      .filter(Number.isFinite);
+
+    const filteredUptime = uptimeValues.length
+      ? (
+          uptimeValues.reduce((sum, value) => sum + value, 0) /
+          uptimeValues.length
+        ).toFixed(2)
+      : null;
+
     if ($("#pulseUptime")) {
       $("#pulseUptime").textContent =
-        data.overallUptime
-          ? `${data.overallUptime}%`
+        filteredUptime !== null
+          ? `${filteredUptime}%`
           : "—";
     }
 
@@ -320,89 +348,74 @@ async function loadStatus() {
 
 
 /* =========================================================
-   JELLYFIN NOW PLAYING
+   UNIFIED CURRENT ACTIVITY
    ========================================================= */
 
-async function loadNowPlaying() {
-  const container = $("#nowPlayingContent");
+function renderActivityItem(item) {
+  const progress = Math.max(
+    0,
+    Math.min(100, Number(item.progressPercent || 0))
+  );
 
-  if (!container) return;
+  return `
+    <a class="activity-item" href="${escapeHTML(item.url || "#")}">
+      <img
+        class="activity-art"
+        src="${escapeHTML(item.image || "/icon.svg")}"
+        alt=""
+        loading="lazy"
+      >
+      <div class="activity-copy">
+        <div class="activity-meta">
+          <span>${escapeHTML((item.action || "ACTIVE").toUpperCase())}</span>
+          <small>${escapeHTML(item.source || "")}</small>
+        </div>
+        <h3>${escapeHTML(item.title || "Untitled")}</h3>
+        <p>${escapeHTML(item.subtitle || "")}</p>
+        ${
+          Number.isFinite(Number(item.progressPercent))
+            ? `<div class="progress"><span style="width:${progress}%"></span></div>`
+            : ""
+        }
+      </div>
+      <span class="activity-arrow">↗</span>
+    </a>
+  `;
+}
+
+async function loadActivity() {
+  const grid = $("#activityGrid");
+  if (!grid) return;
 
   try {
-    const data =
-      await getJSON(
-        "/api/jellyfin/now-playing"
-      );
+    const data = await getJSON("/api/activity");
+    const items = Array.isArray(data.items) ? data.items : [];
 
-    const item = data.items?.[0];
-
-    if (!item) {
-      container.className = "state-message";
-
-      container.innerHTML = `
-        <span class="pulse-orb"></span>
-        <div>
-          <strong>Nothing playing right now.</strong>
-          <p>The node is quiet.</p>
+    if (!items.length) {
+      grid.innerHTML = `
+        <div class="activity-empty">
+          <span class="pulse-orb"></span>
+          <div>
+            <strong>Nothing active right now.</strong>
+            <p>Watching, listening and reading activity will appear here.</p>
+          </div>
         </div>
       `;
-
       return;
     }
 
-    container.className = "now-playing-item";
-
-    container.innerHTML = `
-      <img
-        class="now-art"
-        src="${item.image || "/icon.svg"}"
-        alt=""
-      >
-
-      <div class="now-copy">
-        <div class="eyeline">
-          ${escapeHTML(
-            item.user || "JELLYFIN"
-          )} // NOW PLAYING
-        </div>
-
-        <h3>
-          ${escapeHTML(
-            item.title || "Unknown"
-          )}
-        </h3>
-
-        <p>
-          ${escapeHTML(
-            item.subtitle || ""
-          )}
-        </p>
-
-        <div class="progress">
-          <span
-            style="width:${Math.max(
-              0,
-              Math.min(
-                100,
-                item.progressPercent || 0
-              )
-            )}%"
-          ></span>
-        </div>
-      </div>
-    `;
+    grid.innerHTML = items
+      .slice(0, 4)
+      .map(renderActivityItem)
+      .join("");
   } catch (error) {
-    container.className = "state-message";
-
-    container.innerHTML = `
-      <span class="pulse-orb"></span>
-
-      <div>
-        <strong>Now Playing is ready.</strong>
-        <p>
-          Add the Jellyfin Worker secret
-          to enable it.
-        </p>
+    grid.innerHTML = `
+      <div class="activity-empty">
+        <span class="pulse-orb"></span>
+        <div>
+          <strong>Activity integrations are ready.</strong>
+          <p>Configured media services will appear here automatically.</p>
+        </div>
       </div>
     `;
   }
@@ -410,67 +423,127 @@ async function loadNowPlaying() {
 
 
 /* =========================================================
-   JELLYFIN RECENTLY ADDED
+   MULTI-LIBRARY RECENTLY ADDED
    ========================================================= */
 
-async function loadRecent() {
-  const grid = $("#recentGrid");
+const recentSources = {
+  movies: {
+    label: "Movies & TV",
+    url: "https://movies.vedsingh.com"
+  },
+  music: {
+    label: "Music",
+    url: "https://music.vedsingh.com"
+  },
+  books: {
+    label: "Books & Comics",
+    url: "https://books.vedsingh.com"
+  },
+  audiobooks: {
+    label: "Audiobooks",
+    url: "https://audiobooks.vedsingh.com"
+  },
+  games: {
+    label: "Games",
+    url: "https://games.vedsingh.com"
+  }
+};
 
+let recentSource = "movies";
+
+function setRecentLoading() {
+  const grid = $("#recentGrid");
+  if (!grid) return;
+  grid.innerHTML = Array.from(
+    { length: 4 },
+    () => '<div class="recent-skeleton glass"></div>'
+  ).join("");
+}
+
+function setRecentSource(source, shouldScroll = false) {
+  if (!recentSources[source]) return;
+
+  recentSource = source;
+
+  $$(".media-tab").forEach(button => {
+    const active = button.dataset.recentSource === source;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+
+  const openLink = $("#recentOpenLink");
+  const config = recentSources[source];
+
+  if (openLink) {
+    openLink.href = config.url;
+    openLink.textContent = `Open ${config.label} ↗`;
+  }
+
+  setRecentLoading();
+  loadRecent(source);
+
+  if (shouldScroll) {
+    $("#recent")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
+async function loadRecent(source = recentSource) {
+  const grid = $("#recentGrid");
   if (!grid) return;
 
-  try {
-    const data =
-      await getJSON(
-        "/api/jellyfin/recent?limit=8"
-      );
+  const config = recentSources[source] || recentSources.movies;
 
-    const items = data.items || [];
+  try {
+    const data = await getJSON(
+      `/api/recent?source=${encodeURIComponent(source)}&limit=8`
+    );
+
+    const items = Array.isArray(data.items) ? data.items : [];
 
     if (!items.length) {
-      throw new Error("empty");
+      const message =
+        data.reason === "retroassembly-api-unavailable"
+          ? "RetroAssembly does not expose a stable recent-games feed yet."
+          : data.configured === false
+          ? `${config.label} live data is not connected yet.`
+          : `Nothing new in ${config.label} right now.`;
+
+      grid.innerHTML = `
+        <div class="empty-recent glass">
+          <strong>${escapeHTML(config.label)}</strong>
+          <p>${escapeHTML(message)}</p>
+          <a class="inline-open" href="${escapeHTML(config.url)}">
+            Open ${escapeHTML(config.label)} ↗
+          </a>
+        </div>
+      `;
+      return;
     }
 
     grid.innerHTML = items
       .map(item => `
         <a
           class="recent-card glass"
-          href="${
-            item.url ||
-            "https://movies.vedsingh.com"
-          }"
+          href="${escapeHTML(item.url || config.url)}"
         >
           <img
             class="recent-image"
-            src="${
-              item.image ||
-              "/icon.svg"
-            }"
+            src="${escapeHTML(item.image || "/icon.svg")}"
             alt=""
             loading="lazy"
           >
-
           <div class="recent-info">
             <div class="recent-type">
-              ${escapeHTML(
-                (
-                  item.type ||
-                  "MEDIA"
-                ).toUpperCase()
-              )}
+              ${escapeHTML((item.type || config.label).toUpperCase())}
             </div>
-
             <div class="recent-title">
-              ${escapeHTML(
-                item.title ||
-                "Untitled"
-              )}
+              ${escapeHTML(item.title || "Untitled")}
             </div>
-
             <div class="recent-subtitle">
-              ${escapeHTML(
-                item.subtitle ||
-                ""
-              )}
+              ${escapeHTML(item.subtitle || "")}
             </div>
           </div>
         </a>
@@ -479,19 +552,61 @@ async function loadRecent() {
   } catch (error) {
     grid.innerHTML = `
       <div class="empty-recent glass">
-        <strong>
-          Recently Added is ready.
-        </strong>
-
-        <p>
-          Add the Jellyfin API key
-          as a Worker secret to
-          populate this panel.
-        </p>
+        <strong>${escapeHTML(config.label)}</strong>
+        <p>This library is temporarily unavailable from the portal.</p>
+        <a class="inline-open" href="${escapeHTML(config.url)}">
+          Open ${escapeHTML(config.label)} ↗
+        </a>
       </div>
     `;
   }
 }
+
+
+/* =========================================================
+   PORTAL TABS
+   ========================================================= */
+
+function activatePortalTab(name) {
+  $$(".portal-tab").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.portal === name
+    );
+  });
+}
+
+function handlePortalTab(name) {
+  activatePortalTab(name);
+
+  if (name === "home") {
+    $("#home")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  if (name === "status") {
+    $("#statusPulse")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  if (recentSources[name]) {
+    setRecentSource(name, true);
+  }
+}
+
+$$(".media-tab").forEach(button => {
+  button.addEventListener("click", () => {
+    setRecentSource(button.dataset.recentSource);
+    const source = button.dataset.recentSource;
+    activatePortalTab(source);
+  });
+});
+
+$$(".portal-tab").forEach(button => {
+  button.addEventListener("click", () => {
+    handlePortalTab(button.dataset.portal);
+  });
+});
 
 
 /* =========================================================
@@ -1122,7 +1237,7 @@ setUniverse(
 restartUniverseCycle();
 
 loadStatus();
-loadNowPlaying();
+loadActivity();
 loadRecent();
 
 setInterval(
@@ -1131,6 +1246,6 @@ setInterval(
 );
 
 setInterval(
-  loadNowPlaying,
+  loadActivity,
   30000
 );

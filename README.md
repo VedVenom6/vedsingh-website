@@ -1,33 +1,37 @@
-# Ved Singh 2099 v2
+# Ved Singh Portal
 
-This is the rewritten version with the command palette bug fixed.
+Production architecture:
 
-## Deploy
-1. Open PowerShell in this folder.
-2. `npm.cmd install`
-3. `npx.cmd wrangler login`
-4. `npx.cmd wrangler secret put JELLYFIN_API_KEY`
-5. `npx.cmd wrangler deploy`
+GitHub → Cloudflare Worker (`vedsingh-home`) → `vedsingh.com`
 
-The search palette now closes by:
-- clicking Esc
-- pressing keyboard Esc
-- clicking outside the panel
-- navigating to a result
+The NAS copy is optional/local. Production does not depend on the NAS website container.
 
-After deployment, hard refresh with Ctrl+Shift+R.
+## Current portal behavior
 
+- Random Spider-Verse universe on each fresh load.
+- Earth-928 / 2099, Earth-1610, Earth-616, Earth-90214 / Noir.
+- Automatic universe change every 4 minutes.
+- Browser tab title stays `Ved Singh`.
+- Movies uses Jellyfin with a compact Seerr Request action.
+- Music uses Navidrome with a compact Aurral Add Music action.
+- Unified Current Activity can show Jellyfin, Navidrome, Kavita and Audiobookshelf.
+- Recently Added has tabs for Movies & TV, Music, Books & Comics, Audiobooks and Games.
+- Games points to RetroAssembly; its recent-items tab gracefully falls back because no stable public recent-games API is configured.
+- System Pulse filters retired Mylar3, Shelfarr, Syncthing and AdGuard Home monitors from the homepage summary.
+- Portal navigation stays on `vedsingh.com` and jumps between the unified views.
 
-## Spider-Verse universe cycling
+## Deploy through GitHub
 
-The homepage now cycles automatically every 22 seconds through:
-- Earth-2099 — futuristic neon cyber interface
-- Earth-1610 — cel-shaded comic-book/halftone interface
-- Earth-616 — clean, plain, classic interface
-- Spider-Noir — true monochrome black-and-white film-noir interface
+On the NAS:
 
-You can also:
-- use the arrows under the universe card
-- click the 2099/Universe sigil
-- type `2099`, `1610`, `616`, or `noir` in Ctrl/Cmd+K
-- the selected universe is remembered in the browser
+```bash
+cd /volume1/docker/website
+git add public src wrangler.toml README.md SETUP-SECRETS.md
+git commit -m "Build unified media portal"
+git pull --rebase origin main
+git push
+```
+
+Your Cloudflare Git connection should deploy the pushed commit.
+
+After deployment, hard refresh with `Ctrl+Shift+R`.
