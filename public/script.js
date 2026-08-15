@@ -199,6 +199,18 @@ async function loadStatus() {
       ])
     );
 
+    const monitorAliases = {
+      "retroassembly": ["retroassembly", "retro assembly", "games"],
+      "nginx proxy manager": ["nginx proxy manager", "nginx", "npm"],
+      "uptime kuma": ["uptime kuma", "uptime-kuma", "kuma"],
+      "aurral": ["aurral"],
+      "jellyfin": ["jellyfin"],
+      "navidrome": ["navidrome"],
+      "kavita": ["kavita"],
+      "audiobookshelf": ["audiobookshelf"],
+      "seerr": ["seerr"]
+    };
+
     const findMonitor = expectedName => {
       const expected = normalize(expectedName);
 
@@ -206,9 +218,15 @@ async function loadStatus() {
         return byName.get(expected);
       }
 
+      const aliases = monitorAliases[expected] || [expected];
+
       return monitors.find(monitor => {
         const actual = normalize(monitor.name);
-        return actual.includes(expected) || expected.includes(actual);
+        return aliases.some(alias =>
+          actual === alias ||
+          actual.includes(alias) ||
+          alias.includes(actual)
+        );
       });
     };
 

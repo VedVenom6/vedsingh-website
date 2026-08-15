@@ -1346,3 +1346,23 @@ body[data-universe="noir"] .service-frame-wrap{
   .route-actions{flex-direction:column}
   .service-frame-wrap{border-radius:16px}
 }
+
+
+/* ===== v1.5 navigation hardening ===== */
+.portal-nav{
+  pointer-events:auto;
+}
+.portal-nav .portal-tab{
+  position:relative;
+  z-index:5;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:auto;
+  cursor:pointer;
+  text-decoration:none;
+}
+.portal-nav .portal-tab:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:2px;
+}

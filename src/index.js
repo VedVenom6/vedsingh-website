@@ -122,6 +122,33 @@ function ndPayload(raw) {
 }
 
 
+
+async function probePublicService(name, url) {
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      redirect: "manual",
+      cf: { cacheTtl: 0 }
+    });
+
+    return {
+      id: `probe:${name.toLowerCase().replace(/\s+/g, "-")}`,
+      name,
+      state: response.status >= 200 && response.status < 500 ? "ok" : "down",
+      uptime: null,
+      source: "probe"
+    };
+  } catch {
+    return {
+      id: `probe:${name.toLowerCase().replace(/\s+/g, "-")}`,
+      name,
+      state: "down",
+      uptime: null,
+      source: "probe"
+    };
+  }
+}
+
 /* =========================
    UPTIME KUMA
    ========================= */
@@ -179,6 +206,20 @@ async function status(env) {
 
       return { id, name, state, uptime };
     });
+
+    const hasRetroAssembly = monitors.some(monitor => {
+      const name = String(monitor.name || "").trim().toLowerCase();
+      return ["retroassembly", "retro assembly", "games"].includes(name);
+    });
+
+    if (!hasRetroAssembly) {
+      monitors.push(
+        await probePublicService(
+          "RetroAssembly",
+          cleanBase(env.RETROASSEMBLY_URL || PUBLIC.games)
+        )
+      );
+    }
 
     const known = monitors.filter(monitor => monitor.uptime != null);
     const overallUptime = known.length
