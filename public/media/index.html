@@ -141,7 +141,7 @@
       </section>
 
       <section class="m-section" aria-labelledby="activity-heading">
-        <div class="m-section-head"><h2 id="activity-heading" style="all:inherit;">Current Activity</h2></div>
+        <div class="m-section-head"><h2 id="activity-heading">Current Activity</h2></div>
         <div class="activity-grid" id="activityGrid" aria-live="polite">
           <div class="activity-empty"><strong>Loading&hellip;</strong><span>Checking what's playing.</span></div>
         </div>
@@ -149,17 +149,17 @@
 
       <section class="m-section" aria-labelledby="recent-heading">
         <div class="m-section-head">
-          <h2 id="recent-heading" style="all:inherit;">Recently Added</h2>
+          <h2 id="recent-heading">Recently Added</h2>
           <a id="recentOpenLink" href="https://movies.vedsingh.com">Open Movies &amp; TV &rarr;</a>
         </div>
         <div class="media-tabs" id="recentTabs" role="tablist" aria-label="Recently added library">
-          <button class="media-tab active" type="button" role="tab" aria-selected="true" data-recent-source="movies">Movies &amp; TV</button>
-          <button class="media-tab" type="button" role="tab" aria-selected="false" data-recent-source="music">Music</button>
-          <button class="media-tab" type="button" role="tab" aria-selected="false" data-recent-source="books">Books</button>
-          <button class="media-tab" type="button" role="tab" aria-selected="false" data-recent-source="audiobooks">Audiobooks</button>
-          <button class="media-tab" type="button" role="tab" aria-selected="false" data-recent-source="games">Games</button>
+          <button class="media-tab active" id="recent-tab-movies" type="button" role="tab" aria-selected="true" aria-controls="recentGrid" tabindex="0" data-recent-source="movies">Movies &amp; TV</button>
+          <button class="media-tab" id="recent-tab-music" type="button" role="tab" aria-selected="false" aria-controls="recentGrid" tabindex="-1" data-recent-source="music">Music</button>
+          <button class="media-tab" id="recent-tab-books" type="button" role="tab" aria-selected="false" aria-controls="recentGrid" tabindex="-1" data-recent-source="books">Books</button>
+          <button class="media-tab" id="recent-tab-audiobooks" type="button" role="tab" aria-selected="false" aria-controls="recentGrid" tabindex="-1" data-recent-source="audiobooks">Audiobooks</button>
+          <button class="media-tab" id="recent-tab-games" type="button" role="tab" aria-selected="false" aria-controls="recentGrid" tabindex="-1" data-recent-source="games">Games</button>
         </div>
-        <div class="strip" id="recentGrid" aria-live="polite"></div>
+        <div class="strip" id="recentGrid" role="tabpanel" aria-labelledby="recent-tab-movies" aria-live="polite"></div>
       </section>
 
       <footer class="ei-footer">

@@ -259,6 +259,19 @@ body.editorial {
   color: var(--accent);
 }
 
+.ei-hero.ei-hero-compact {
+  padding-bottom: 4px;
+}
+
+.ei-hero.ei-hero-work {
+  padding-bottom: 6px;
+}
+
+.ei-headline.ei-headline-compact {
+  font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.9rem);
+  line-height: 1.18;
+}
+
 .ei-sub {
   font-size: clamp(15px, 1vw + 12px, 18px);
   line-height: 1.65;
@@ -588,6 +601,10 @@ body.editorial {
   color: var(--ink-soft);
 }
 
+.ei-footer.ei-footer-compact {
+  margin-top: 36px;
+}
+
 /* =========================================================
    RESPONSIVE: below 680px, swap the rail for the top strip
    and stack the hero margin under the hero copy.
@@ -599,6 +616,15 @@ body.editorial {
        Without this, the strip nav below becomes a shrink-to-fit
        sidebar next to .ei-main instead of a full-width bar above it. */
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .ei-main {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
   }
 
   .ei-rail {

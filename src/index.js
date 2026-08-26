@@ -42,6 +42,18 @@ const LEGACY_PORTAL_REDIRECTS = {
   "/status": PUBLIC.kuma
 };
 
+const WORLD_PATH_REDIRECTS = {
+  "/work": "https://work.vedsingh.com",
+  "/media": "https://media.vedsingh.com",
+  "/personal": "https://personal.vedsingh.com",
+  "/lab": "https://lab.vedsingh.com"
+};
+
+const boundedLimit = value => {
+  const parsed = Number.parseInt(String(value || "8"), 10);
+  return Number.isFinite(parsed) ? Math.min(Math.max(parsed, 1), 20) : 8;
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -51,7 +63,7 @@ export default {
 
     if (url.pathname === "/api/recent") {
       const source = String(url.searchParams.get("source") || "movies").toLowerCase();
-      const limit = Math.min(Math.max(Number(url.searchParams.get("limit") || 8), 1), 20);
+      const limit = boundedLimit(url.searchParams.get("limit"));
       return recentBySource(env, source, limit);
     }
 
@@ -61,7 +73,7 @@ export default {
 
     // Preserve the old API routes for compatibility.
     if (url.pathname === "/api/jellyfin/recent") {
-      const limit = Math.min(Math.max(Number(url.searchParams.get("limit") || 8), 1), 20);
+      const limit = boundedLimit(url.searchParams.get("limit"));
       return jellyfinRecent(env, limit);
     }
     if (url.pathname === "/api/jellyfin/now-playing") {
@@ -71,6 +83,9 @@ export default {
     const cleanPath = url.pathname.replace(/\/+$/, "") || "/";
     if (LEGACY_PORTAL_REDIRECTS[cleanPath]) {
       return Response.redirect(LEGACY_PORTAL_REDIRECTS[cleanPath], 302);
+    }
+    if (WORLD_PATH_REDIRECTS[cleanPath]) {
+      return Response.redirect(WORLD_PATH_REDIRECTS[cleanPath], 302);
     }
 
     // Prefer the Host header over url.hostname: in front of
@@ -350,7 +365,7 @@ async function jellyfinActivityData(env) {
         action: session.PlayState.IsPaused ? "Paused" : "Watching",
         title: item.Name,
         subtitle: item.SeriesName || item.AlbumArtist || item.ProductionYear || "",
-        user: session.UserName || "Jellyfin",
+        user: "Jellyfin",
         progressPercent: duration
           ? Number(((position / duration) * 100).toFixed(1))
           : 0,

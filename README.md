@@ -22,8 +22,8 @@ do not appear anywhere.
 | `vedsingh.com` | Central hub | Earth-616 | Balanced, editorial, foundational | `tokens-cool.css` |
 | `work.vedsingh.com` | Work — HLIF and other projects | Earth-90214 | Restrained, monochrome, professional | `tokens-mono.css` |
 | `media.vedsingh.com` | Media — the designed media portal | Earth-1610 | Kinetic, graphic, expressive (evolved Spider-Verse) | `media.css` (own stylesheet) |
-| `personal.vedsingh.com` | Personal — collections, reading, notes | Earth-65 | Warmer, creative, personal | `tokens-warm.css` |
-| `lab.vedsingh.com` | Lab — self-hosting, AI, experiments | Earth-928 | Futuristic, technical, experimental | `tokens-futures.css` |
+| `personal.vedsingh.com` | Personal — settled systems, self-hosted notes, interests | Earth-65 | Warmer, creative, personal | `tokens-warm.css` |
+| `lab.vedsingh.com` | Lab — prototypes, local AI, server/Linux tinkering | Earth-928 | Futuristic, technical, experimental | `tokens-futures.css` |
 
 All five worlds are built from the same `public/assets/editorial.css`
 (rail nav, mobile strip nav, masthead, index list, typography scale,

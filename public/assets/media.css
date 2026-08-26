@@ -551,6 +551,10 @@
   background: var(--cbg2);
 }
 
+.command-item.command-empty {
+  cursor: default;
+}
+
 .command-footer {
   display: flex;
   gap: 16px;
@@ -578,11 +582,26 @@
   color: var(--ink-soft);
 }
 
+.m-section-head h2 {
+  margin: 0;
+  font: inherit;
+}
+
 .m-section-head a {
   color: var(--ink-soft);
 }
 
 @media (max-width: 679px) {
+  .panel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .m-controls,
+  .pulse-head,
+  .m-section-head {
+    align-items: flex-start;
+  }
+
   .activity-item {
     grid-template-columns: 44px 1fr;
   }

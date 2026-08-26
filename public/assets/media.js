@@ -18,12 +18,10 @@ const commands = [
   { label: "Home", hint: "vedsingh.com", url: "https://vedsingh.com", keys: "home hub index" },
   { label: "Work", hint: "HLIF and projects", url: "https://work.vedsingh.com", keys: "work hlif projects" },
   { label: "Personal", hint: "Collections, reading, notes", url: "https://personal.vedsingh.com", keys: "personal collections reading notes" },
-  { label: "Lab", hint: "Self-hosting and experiments", url: "https://lab.vedsingh.com", keys: "lab ai self-hosting linux servers" }
+  { label: "Lab", hint: "Prototypes and experiments", url: "https://lab.vedsingh.com", keys: "lab ai prototypes experiments linux servers" }
 ];
 
 let selectedCommand = 0;
-let deferredPrompt = null;
-
 const getJSON = async url => {
   const response = await fetch(url, { headers: { Accept: "application/json" }, cache: "no-store" });
   if (!response.ok) throw new Error(String(response.status));
@@ -190,7 +188,12 @@ function setRecentSource(source) {
     const active = button.dataset.recentSource === source;
     button.classList.toggle("active", active);
     button.setAttribute("aria-selected", String(active));
+    button.tabIndex = active ? 0 : -1;
   });
+
+  const panel = $("#recentGrid");
+  const activeTab = $(`.media-tab[data-recent-source="${source}"]`);
+  if (panel && activeTab) panel.setAttribute("aria-labelledby", activeTab.id);
 
   const openLink = $("#recentOpenLink");
   const config = recentSources[source];
@@ -255,6 +258,19 @@ async function loadRecent(source = recentSource) {
 
 $$(".media-tab").forEach(button => {
   button.addEventListener("click", () => setRecentSource(button.dataset.recentSource));
+  button.addEventListener("keydown", event => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const tabs = $$(".media-tab");
+    const current = tabs.indexOf(button);
+    const next = event.key === "Home"
+      ? 0
+      : event.key === "End"
+      ? tabs.length - 1
+      : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    tabs[next].focus();
+    setRecentSource(tabs[next].dataset.recentSource);
+  });
 });
 
 /* =========================================================
@@ -276,7 +292,7 @@ function renderCommands(query = "") {
           <span aria-hidden="true">&#8599;</span>
         </button>
       `).join("")
-    : `<div class="command-item" style="cursor:default;"><span><strong>No route found.</strong><br><small>Try movies, music, books, status&hellip;</small></span></div>`;
+    : `<div class="command-item command-empty"><span><strong>No route found.</strong><br><small>Try movies, music, books, status&hellip;</small></span></div>`;
 
   $$(".command-item[data-url]").forEach(button => {
     button.addEventListener("click", () => { window.location.href = button.dataset.url; });
@@ -324,6 +340,22 @@ document.addEventListener("keydown", event => {
 
   if (!backdrop || backdrop.hidden) return;
 
+  if (event.key === "Tab") {
+    const focusable = $$('input, button, a[href], [tabindex]:not([tabindex="-1"])', backdrop)
+      .filter(element => !element.disabled && !element.hidden);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+    return;
+  }
+
   const items = $$(".command-item[data-url]");
   if (!items.length) return;
 
@@ -343,15 +375,6 @@ document.addEventListener("keydown", event => {
 
   items.forEach((item, index) => item.classList.toggle("selected", index === selectedCommand));
   items[selectedCommand]?.scrollIntoView({ block: "nearest" });
-});
-
-/* =========================================================
-   PWA INSTALL
-   ========================================================= */
-
-window.addEventListener("beforeinstallprompt", event => {
-  event.preventDefault();
-  deferredPrompt = event;
 });
 
 if ("serviceWorker" in navigator) {

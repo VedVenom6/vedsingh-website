@@ -1,7 +1,9 @@
 {
   "name": "Ved Singh Media",
   "short_name": "VS Media",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#10131b",
   "theme_color": "#10131b",

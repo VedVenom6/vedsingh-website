@@ -7,6 +7,8 @@
 - Old `vedsingh.com/movies`-style routes now 302-redirect to the real service subdomains instead of serving an embedded shell.
 - All existing Media backend integrations (System Pulse, Current Activity, Recently Added, cover-art proxying, command palette, Seerr/Aurral quick actions) preserved and re-skinned, not rewritten.
 - Existing service subdomains (movies, music, books, audiobooks, games, seerr, status) unchanged.
+- Clarified the content boundary: Personal owns settled personal systems and self-hosted Obsidian/sync notes; Lab owns prototypes, local AI tests, and server/Linux exploration.
+- Final QA hardening: canonical subdomain redirects for direct world paths, accessible Media tabs and command dialog focus containment, safer Media service-worker caching, API input normalization, and removal of the unused v1 root-site files.
 
 ## 1.5.2
 - Changed the Music routed page back to the canonical public URL: `https://music.vedsingh.com`
