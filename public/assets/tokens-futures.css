@@ -1,0 +1,13 @@
+/* Editorial Index — Earth-928. Futuristic, technical, experimental.
+   Used by Lab only. Dark and cyan-accented, but still built from the
+   same rail / index-list / mono-label structure as every other
+   world — no scanlines, no terminal-green, no monitoring-dashboard
+   chrome. */
+:root {
+  --paper: oklch(14% 0.02 250);
+  --paper-2: oklch(19.5% 0.024 250);
+  --ink: oklch(92% 0.01 220);
+  --ink-soft: oklch(63% 0.02 235);
+  --rule: oklch(32% 0.026 250);
+  --accent: oklch(78% 0.13 205);
+}
