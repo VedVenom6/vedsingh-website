@@ -1,5 +1,13 @@
 # Ved Singh Portal Version History
 
+## 2.0.0
+- Platform split across five hostnames: vedsingh.com (hub), work.vedsingh.com, media.vedsingh.com, personal.vedsingh.com, and lab.vedsingh.com, served by one Worker via hostname-aware routing.
+- New Editorial Index design system for the hub, Work, Personal, and Lab: a left index rail, numbered sections, and a shared typography and spacing system, in place of the Spider-Verse shell.
+- Media evolved into the finalized Earth-1610 identity; the four-universe rotator (616/1610/2099/Noir auto-switching every few minutes) was retired in favor of one fixed, evolved comic identity.
+- Old `vedsingh.com/movies`-style routes now 302-redirect to the real service subdomains instead of serving an embedded shell.
+- All existing Media backend integrations (System Pulse, Current Activity, Recently Added, cover-art proxying, command palette, Seerr/Aurral quick actions) preserved and re-skinned, not rewritten.
+- Existing service subdomains (movies, music, books, audiobooks, games, seerr, status) unchanged.
+
 ## 1.5.2
 - Changed the Music routed page back to the canonical public URL: `https://music.vedsingh.com`
 - Kept Navidrome API calls on `/music` because the server uses `ND_BASEURL=/music`
