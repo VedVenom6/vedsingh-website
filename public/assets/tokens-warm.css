@@ -1,0 +1,9 @@
+/* Editorial Index — warm paper/ink tokens. Used by Personal only. */
+:root {
+  --paper: oklch(96.5% 0.015 72);
+  --paper-2: oklch(91.5% 0.025 66);
+  --ink: oklch(21% 0.025 40);
+  --ink-soft: oklch(46% 0.028 45);
+  --rule: oklch(80% 0.022 60);
+  --accent: oklch(46% 0.15 35);
+}

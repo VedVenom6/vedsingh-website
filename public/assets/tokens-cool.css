@@ -1,0 +1,9 @@
+/* Editorial Index — cool paper/ink tokens. Used by Home, Work, Lab. */
+:root {
+  --paper: oklch(97.5% 0.006 95);
+  --paper-2: oklch(93.5% 0.009 88);
+  --ink: oklch(19% 0.015 260);
+  --ink-soft: oklch(46% 0.02 260);
+  --rule: oklch(83% 0.01 260);
+  --accent: oklch(46% 0.15 35);
+}

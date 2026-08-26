@@ -1,0 +1,646 @@
+/* =========================================================
+   EDITORIAL INDEX — shared system for vedsingh.com, work,
+   personal, and lab. Media does not use this file.
+
+   Requires assets/base.css and one of assets/tokens-*.css
+   loaded first for --paper / --ink / --accent etc.
+   ========================================================= */
+
+body.editorial {
+  background-color: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  color: var(--ink);
+}
+
+.editorial a {
+  color: var(--ink);
+}
+
+.editorial a:hover {
+  color: var(--accent);
+}
+
+.mono {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* ---------- Page frame ---------- */
+
+.ei-page {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.ei-main {
+  flex: 1;
+  min-width: 0;
+  padding: clamp(28px, 4vw, 52px) clamp(20px, 5vw, 72px) clamp(40px, 6vw, 64px);
+}
+
+/* ---------- Desktop rail nav (>=680px) ---------- */
+
+.ei-rail {
+  flex: 0 0 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36px 0;
+  border-right: 1px solid var(--rule);
+}
+
+.ei-rail-mark {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
+  font-size: 22px;
+  font-style: italic;
+}
+
+.ei-rail-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ei-rail-item a {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  min-height: 44px;
+  padding: 4px 2px;
+}
+
+.ei-rail-item.current a {
+  color: var(--ink);
+}
+
+.ei-rail-item.current a .num {
+  color: var(--accent);
+}
+
+.ei-rail-item a[aria-current="true"] {
+  color: var(--ink);
+}
+
+.ei-rail-foot {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+}
+
+/* ---------- Mobile top strip nav (<680px) ---------- */
+
+.ei-strip {
+  display: none;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ei-strip-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0 16px;
+}
+
+.ei-strip-item {
+  flex: 1;
+}
+
+.ei-strip-item a {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 12px 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  border-bottom: 2px solid transparent;
+}
+
+.ei-strip-item.current a {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- Masthead ---------- */
+
+.ei-masthead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ei-wordmark {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.ei-wordmark a {
+  color: inherit;
+}
+
+.ei-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+.ei-contents {
+  margin-top: 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ei-contents b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.ei-contents a {
+  color: inherit;
+}
+
+.ei-contents a:hover {
+  color: var(--accent);
+}
+
+/* ---------- Hero ---------- */
+
+.ei-hero {
+  display: flex;
+  gap: clamp(24px, 4vw, 48px);
+  padding: clamp(28px, 5vw, 52px) 0 clamp(16px, 3vw, 46px);
+  flex-wrap: wrap;
+}
+
+.ei-hero-main {
+  flex: 1 1 480px;
+  max-width: 780px;
+  min-width: 0;
+}
+
+.ei-hero-margin {
+  flex: 0 0 190px;
+  padding-top: clamp(24px, 4vw, 96px);
+  border-left: 1px solid var(--rule);
+  padding-left: 24px;
+}
+
+.ei-hero-margin p {
+  font-family: 'Newsreader', serif;
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+}
+
+.ei-hero-margin p:last-child {
+  margin-bottom: 0;
+}
+
+.ei-hero-margin .fn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-soft);
+  margin-right: 6px;
+}
+
+.ei-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin: 0 0 18px;
+  text-transform: uppercase;
+}
+
+.ei-headline {
+  font-family: 'Newsreader', serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 1.3rem + 3vw, 4.375rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.ei-headline.ei-headline-italic {
+  font-style: italic;
+  line-height: 1.24;
+  padding-bottom: 4px;
+}
+
+.ei-headline em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.ei-sub {
+  font-size: clamp(15px, 1vw + 12px, 18px);
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 600px;
+  margin: 20px 0 0;
+}
+
+/* ---------- Section head ---------- */
+
+.ei-section-head {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: clamp(28px, 4vw, 44px) 0 4px;
+}
+
+/* ---------- Index list (rows shared by Home / Personal / Lab) ---------- */
+
+.ei-idx-list {
+  border-top: 1px solid var(--ink);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ei-idx-row {
+  border-bottom: 1px solid var(--rule);
+}
+
+.ei-idx-row > a,
+.ei-idx-row > .ei-idx-static {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 22px 0;
+  min-height: 44px;
+}
+
+.ei-idx-row > a {
+  position: relative;
+}
+
+.ei-idx-row > a:hover,
+.ei-idx-row > a:focus-visible {
+  background: color-mix(in oklch, var(--paper-2) 60%, transparent);
+}
+
+.ei-idx-num {
+  flex: 0 0 44px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.ei-idx-name {
+  flex: 0 1 240px;
+  font-family: 'Newsreader', serif;
+  font-weight: 400;
+  font-size: clamp(20px, 1vw + 18px, 30px);
+  font-style: italic;
+}
+
+.ei-idx-desc {
+  flex: 1 1 220px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.ei-idx-status {
+  flex: 0 0 auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ei-idx-arrow {
+  flex: 0 0 auto;
+  color: var(--ink-soft);
+  display: flex;
+  margin-left: auto;
+}
+
+.ei-idx-row > a:hover .ei-idx-arrow,
+.ei-idx-row > a:focus-visible .ei-idx-arrow {
+  color: var(--accent);
+}
+
+/* Mono variant, used for Lab's tighter Areas list */
+.ei-idx-list.ei-idx-list-tight .ei-idx-row > a,
+.ei-idx-list.ei-idx-list-tight .ei-idx-row > .ei-idx-static {
+  padding: 14px 0;
+}
+
+.ei-idx-list.ei-idx-list-tight .ei-idx-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  flex-basis: 150px;
+}
+
+.ei-idx-list.ei-idx-list-tight .ei-idx-desc {
+  font-size: 13.5px;
+}
+
+/* ---------- Ledger (Work's project entries) ---------- */
+
+.ei-ledger {
+  border-top: 1px solid var(--ink);
+}
+
+.ei-entry {
+  border-bottom: 1px solid var(--rule);
+  padding: 26px 0;
+  display: grid;
+  grid-template-columns: 90px 1fr 200px;
+  gap: 20px;
+}
+
+.ei-entry.ei-entry-featured {
+  padding: 32px 20px;
+  margin: 0 -20px;
+  background: color-mix(in oklch, var(--paper-2) 55%, transparent);
+}
+
+.ei-entry-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  padding-top: 6px;
+}
+
+.ei-entry-tag.on {
+  color: var(--accent);
+}
+
+.ei-entry-name {
+  font-family: 'Newsreader', serif;
+  font-weight: 400;
+  font-size: 26px;
+  font-style: italic;
+  margin: 0 0 8px;
+}
+
+.ei-entry.ei-entry-featured .ei-entry-name {
+  font-size: 32px;
+}
+
+.ei-entry-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.ei-entry-desc.ph {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.ei-entry-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.ei-entry-meta strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---------- Closing / revision log ---------- */
+
+.ei-closing {
+  margin-top: 44px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  gap: clamp(24px, 4vw, 56px);
+  flex-wrap: wrap;
+}
+
+.ei-closing-block {
+  flex: 1 1 260px;
+  max-width: 420px;
+}
+
+.ei-closing-block h2 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+}
+
+.ei-closing-block p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.ei-revlog {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ei-revlog li {
+  display: flex;
+  gap: 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.ei-revlog .v {
+  flex: 0 0 46px;
+  color: var(--ink);
+}
+
+/* ---------- Currently module (Personal) ---------- */
+
+.ei-currently {
+  margin-top: 40px;
+  background: linear-gradient(180deg, color-mix(in oklch, white 22%, var(--paper-2)), var(--paper-2));
+  box-shadow: inset 0 1px 0 color-mix(in oklch, white 45%, transparent);
+  padding: 26px 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
+.ei-currently-item {
+  flex: 1 1 160px;
+}
+
+.ei-currently-item h2 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 10px;
+}
+
+.ei-currently-item p {
+  font-family: 'Newsreader', serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--ink);
+}
+
+/* ---------- System list (Lab's Currently Running) ---------- */
+
+.ei-sys-intro {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin: 0 0 14px;
+  max-width: 520px;
+}
+
+.ei-sys-list {
+  border-top: 1px solid var(--ink);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ei-sys-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ei-sys-name {
+  flex: 0 0 150px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.ei-sys-note {
+  flex: 1 1 200px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+/* ---------- Footer ---------- */
+
+.ei-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  justify-content: space-between;
+  margin-top: clamp(28px, 4vw, 56px);
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+/* =========================================================
+   RESPONSIVE: below 680px, swap the rail for the top strip
+   and stack the hero margin under the hero copy.
+   ========================================================= */
+
+@media (max-width: 679px) {
+  .ei-rail {
+    display: none;
+  }
+
+  .ei-strip {
+    display: block;
+  }
+
+  .ei-hero {
+    flex-direction: column;
+  }
+
+  .ei-hero-margin {
+    flex: 1 1 auto;
+    padding-top: 0;
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    margin-top: 4px;
+  }
+
+  .ei-entry {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .ei-entry-meta {
+    align-items: flex-start;
+    text-align: left;
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .ei-idx-row > a,
+  .ei-idx-row > .ei-idx-static {
+    gap: 6px 16px;
+  }
+
+  .ei-idx-desc {
+    flex-basis: 100%;
+    order: 3;
+  }
+}
+
+@media (max-width: 420px) {
+  .ei-strip-item a {
+    font-size: 9px;
+  }
+}
