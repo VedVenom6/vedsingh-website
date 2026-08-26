@@ -5,6 +5,14 @@ compatibility_date = "2026-08-12"
 [assets]
 directory = "./public"
 binding = "ASSETS"
+# Without this, Cloudflare serves a matching static file (like "/")
+# directly and never runs src/index.js — which is exactly the path
+# the hostname-aware world routing below depends on.
+run_worker_first = true
+# Serve public/404.html for any unmatched path. This was missing
+# before v2.0.0 too (confirmed: unmatched paths returned an empty
+# 404 body in local dev); fixed here as a genuine bug, not scope creep.
+not_found_handling = "404-page"
 
 [vars]
 KUMA_URL = "https://status.vedsingh.com"
@@ -14,3 +22,53 @@ NAVIDROME_URL = "https://music.vedsingh.com/music"
 KAVITA_URL = "https://books.vedsingh.com"
 AUDIOBOOKSHELF_URL = "https://audiobooks.vedsingh.com"
 RETROASSEMBLY_URL = "https://games.vedsingh.com"
+
+# =========================================================
+# PLATFORM ARCHITECTURE (locked v2.0.0) — NOT YET DEPLOYED.
+#
+# One Worker now answers for five hostnames (src/index.js picks
+# which world to serve by request Host header). Each of the five
+# needs a Custom Domain pointing at this Worker before deploy.
+#
+# Deployment steps this file alone does not perform:
+#   1. In the Cloudflare dashboard, add each hostname below as a
+#      Custom Domain on the "vedsingh-home" Worker (Workers &
+#      Pages -> vedsingh-home -> Settings -> Domains & Routes).
+#      Cloudflare creates the required DNS record automatically
+#      when you add a Custom Domain this way.
+#   2. If instead managing DNS by hand: add a proxied CNAME (or
+#      A/AAAA, per Cloudflare's Workers routing docs) for each
+#      new hostname, then attach the matching [[routes]] pattern
+#      below and run `wrangler deploy`.
+#   3. The seven existing service subdomains (movies, music,
+#      books, audiobooks, games, seerr, status) are untouched —
+#      they are not routed through this Worker and need no change.
+#
+# Uncommenting the routes below without also creating the Custom
+# Domains / DNS records in Cloudflare will make `wrangler deploy`
+# fail or leave a hostname unreachable. Do this deliberately, at
+# deploy time, not as part of this code change.
+#
+# [[routes]]
+# pattern = "vedsingh.com/*"
+# custom_domain = true
+#
+# [[routes]]
+# pattern = "www.vedsingh.com/*"
+# custom_domain = true
+#
+# [[routes]]
+# pattern = "work.vedsingh.com/*"
+# custom_domain = true
+#
+# [[routes]]
+# pattern = "media.vedsingh.com/*"
+# custom_domain = true
+#
+# [[routes]]
+# pattern = "personal.vedsingh.com/*"
+# custom_domain = true
+#
+# [[routes]]
+# pattern = "lab.vedsingh.com/*"
+# custom_domain = true

@@ -7,6 +7,41 @@ const PUBLIC = {
   games: "https://games.vedsingh.com"
 };
 
+/* =========================================================
+   PLATFORM ARCHITECTURE (locked v2.0.0)
+
+   One Worker, one static asset directory, five hostnames.
+   Each world's document lives at a fixed path in ./public;
+   the fetch handler below picks which one to serve based on
+   the request's Host header. This avoids duplicating the app
+   five times while still giving each world its own address.
+
+   The seven existing service subdomains (movies, music, books,
+   audiobooks, games, seerr, status) are NOT handled here. They
+   are separate, already-existing destinations this Worker only
+   ever links to.
+   ========================================================= */
+const WORLD_INDEX = {
+  "vedsingh.com": "/",
+  "www.vedsingh.com": "/",
+  "work.vedsingh.com": "/work/",
+  "personal.vedsingh.com": "/personal/",
+  "lab.vedsingh.com": "/lab/",
+  "media.vedsingh.com": "/media/"
+};
+
+/* Pre-v2.0.0 bookmarks pointed at vedsingh.com/movies etc, which
+   used to serve an embedded shell. Those services now live on
+   their own subdomains; send old links there instead of 404ing. */
+const LEGACY_PORTAL_REDIRECTS = {
+  "/movies": PUBLIC.jellyfin,
+  "/music": "https://music.vedsingh.com",
+  "/books": PUBLIC.kavita,
+  "/audiobooks": PUBLIC.audiobookshelf,
+  "/games": PUBLIC.games,
+  "/status": PUBLIC.kuma
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -24,27 +59,6 @@ export default {
       return mediaImage(env, url.searchParams);
     }
 
-    const portalPath = url.pathname.replace(/\/+$/, "") || "/";
-    const portalRoutes = new Set([
-      "/movies",
-      "/music",
-      "/books",
-      "/audiobooks",
-      "/games",
-      "/status"
-    ]);
-
-    if (portalRoutes.has(portalPath)) {
-      // Serve the homepage shell without redirecting the browser back to "/".
-      const shellUrl = new URL("/", url);
-      const shellResponse = await env.ASSETS.fetch(new Request(shellUrl, request));
-
-      return new Response(shellResponse.body, {
-        status: 200,
-        headers: shellResponse.headers
-      });
-    }
-
     // Preserve the old API routes for compatibility.
     if (url.pathname === "/api/jellyfin/recent") {
       const limit = Math.min(Math.max(Number(url.searchParams.get("limit") || 8), 1), 20);
@@ -52,6 +66,36 @@ export default {
     }
     if (url.pathname === "/api/jellyfin/now-playing") {
       return jellyfinActivity(env);
+    }
+
+    const cleanPath = url.pathname.replace(/\/+$/, "") || "/";
+    if (LEGACY_PORTAL_REDIRECTS[cleanPath]) {
+      return Response.redirect(LEGACY_PORTAL_REDIRECTS[cleanPath], 302);
+    }
+
+    // Prefer the Host header over url.hostname: in front of
+    // Cloudflare's edge these usually agree, but the header is the
+    // one guaranteed to reflect what the client actually asked for
+    // (matters for local dev and for any future reverse proxy hop).
+    const hostname = (request.headers.get("host") || url.hostname)
+      .toLowerCase()
+      .split(":")[0];
+
+    if (url.pathname === "/" && WORLD_INDEX[hostname]) {
+      const assetUrl = new URL(WORLD_INDEX[hostname], url);
+      // Drop the original Host header: it still says (say) work.vedsingh.com
+      // while assetUrl's authority is this Worker's own request URL, and a
+      // mismatched Host confuses the assets binding's own routing.
+      const assetHeaders = new Headers(request.headers);
+      assetHeaders.delete("host");
+      const assetResponse = await env.ASSETS.fetch(
+        new Request(assetUrl, { method: request.method, headers: assetHeaders })
+      );
+
+      return new Response(assetResponse.body, {
+        status: assetResponse.status,
+        headers: assetResponse.headers
+      });
     }
 
     return env.ASSETS.fetch(request);
