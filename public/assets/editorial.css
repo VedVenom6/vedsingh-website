@@ -594,12 +594,20 @@ body.editorial {
    ========================================================= */
 
 @media (max-width: 679px) {
+  .ei-page {
+    /* .ei-page is a flex row by default (for the desktop rail).
+       Without this, the strip nav below becomes a shrink-to-fit
+       sidebar next to .ei-main instead of a full-width bar above it. */
+    flex-direction: column;
+  }
+
   .ei-rail {
     display: none;
   }
 
   .ei-strip {
     display: block;
+    width: 100%;
   }
 
   .ei-hero {
