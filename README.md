@@ -12,18 +12,27 @@ container being online.
 
 ## Platform worlds
 
-| Domain | World | Visual identity |
-| --- | --- | --- |
-| `vedsingh.com` | Central hub | Editorial Index |
-| `work.vedsingh.com` | Work — HLIF and other projects | Editorial Index |
-| `media.vedsingh.com` | Media — the designed media portal | Earth-1610 (evolved Spider-Verse) |
-| `personal.vedsingh.com` | Personal — collections, reading, notes | Editorial Index (warm) |
-| `lab.vedsingh.com` | Lab — self-hosting, AI, experiments | Editorial Index |
+Every world has its own permanent Earth identity — not a rotating
+theme, one fixed identity per domain. Only the Earth number is ever
+shown in the UI; retired nicknames like "Noir," "2099," or "Ultimate"
+do not appear anywhere.
 
-The Earth-1610 comic visual language is fenced to `media.vedsingh.com`
-only. The other four worlds share one neutral design system (see
-`public/assets/editorial.css`), so they read as one platform without
-sharing Media's aesthetic.
+| Domain | World | Earth | Character | Tokens |
+| --- | --- | --- | --- | --- |
+| `vedsingh.com` | Central hub | Earth-616 | Balanced, editorial, foundational | `tokens-cool.css` |
+| `work.vedsingh.com` | Work — HLIF and other projects | Earth-90214 | Restrained, monochrome, professional | `tokens-mono.css` |
+| `media.vedsingh.com` | Media — the designed media portal | Earth-1610 | Kinetic, graphic, expressive (evolved Spider-Verse) | `media.css` (own stylesheet) |
+| `personal.vedsingh.com` | Personal — collections, reading, notes | Earth-65 | Warmer, creative, personal | `tokens-warm.css` |
+| `lab.vedsingh.com` | Lab — self-hosting, AI, experiments | Earth-928 | Futuristic, technical, experimental | `tokens-futures.css` |
+
+All five worlds are built from the same `public/assets/editorial.css`
+(rail nav, mobile strip nav, masthead, index list, typography scale,
+spacing rhythm, motion/focus/reduced-motion rules) — only Media
+diverges into its own stylesheet for its content area. Each world's
+Earth identity is a token-file swap (palette, texture, atmosphere),
+not a different structural system: shared platform DNA comes from
+navigation structure, typography discipline, spacing rhythm, motion
+philosophy, and interaction quality, never from sharing one look.
 
 ## Existing service subdomains (unchanged)
 

@@ -2,8 +2,8 @@
 
 ## 2.0.0
 - Platform split across five hostnames: vedsingh.com (hub), work.vedsingh.com, media.vedsingh.com, personal.vedsingh.com, and lab.vedsingh.com, served by one Worker via hostname-aware routing.
-- New Editorial Index design system for the hub, Work, Personal, and Lab: a left index rail, numbered sections, and a shared typography and spacing system, in place of the Spider-Verse shell.
-- Media evolved into the finalized Earth-1610 identity; the four-universe rotator (616/1610/2099/Noir auto-switching every few minutes) was retired in favor of one fixed, evolved comic identity.
+- New Editorial Index design system: a left index rail, numbered sections, and a shared typography and spacing system, in place of the Spider-Verse shell, shared across all five worlds via `public/assets/editorial.css`.
+- Each world now carries its own fixed Earth identity, never a rotating theme: vedsingh.com is Earth-616, work.vedsingh.com is Earth-90214 (monochrome), media.vedsingh.com is Earth-1610 (evolved Spider-Verse), personal.vedsingh.com is Earth-65 (warm), lab.vedsingh.com is Earth-928 (dark, futuristic). The old four-universe rotator (616/1610/2099/Noir auto-switching every few minutes) is retired; only the Earth number is ever shown, no nicknames.
 - Old `vedsingh.com/movies`-style routes now 302-redirect to the real service subdomains instead of serving an embedded shell.
 - All existing Media backend integrations (System Pulse, Current Activity, Recently Added, cover-art proxying, command palette, Seerr/Aurral quick actions) preserved and re-skinned, not rewritten.
 - Existing service subdomains (movies, music, books, audiobooks, games, seerr, status) unchanged.
