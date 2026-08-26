@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131b">
+  <meta name="description" content="Ved Singh Media — movies, music, books, audiobooks, and games, in one portal.">
+  <title>Media — Ved Singh</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Anton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/base.css">
+  <link rel="stylesheet" href="/assets/tokens-cool.css">
+  <link rel="stylesheet" href="/assets/editorial.css">
+  <link rel="stylesheet" href="/assets/media.css">
+</head>
+<body class="editorial">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="ei-page">
+    <nav class="ei-rail" aria-label="Platform worlds">
+      <a class="ei-rail-mark" href="https://vedsingh.com" aria-label="Ved Singh, home">VS</a>
+      <ul class="ei-rail-nav">
+        <li class="ei-rail-item"><a href="https://vedsingh.com">01. Home</a></li>
+        <li class="ei-rail-item"><a href="https://work.vedsingh.com">02. Work</a></li>
+        <li class="ei-rail-item current"><a href="/" aria-current="page"><span class="num">03.</span> Media</a></li>
+        <li class="ei-rail-item"><a href="https://personal.vedsingh.com">04. Personal</a></li>
+        <li class="ei-rail-item"><a href="https://lab.vedsingh.com">05. Lab</a></li>
+      </ul>
+      <span class="ei-rail-foot">VEDSINGH.COM / INDEX</span>
+    </nav>
+
+    <nav class="ei-strip" aria-label="Platform worlds">
+      <ul class="ei-strip-list">
+        <li class="ei-strip-item"><a href="https://vedsingh.com">01</a></li>
+        <li class="ei-strip-item"><a href="https://work.vedsingh.com">02</a></li>
+        <li class="ei-strip-item current"><a href="/" aria-current="page">03</a></li>
+        <li class="ei-strip-item"><a href="https://personal.vedsingh.com">04</a></li>
+        <li class="ei-strip-item"><a href="https://lab.vedsingh.com">05</a></li>
+      </ul>
+    </nav>
+
+    <main class="ei-main" id="main">
+      <header class="ei-masthead">
+        <span class="ei-wordmark">VED SINGH</span>
+        <span class="ei-meta">ISSUE 2026.08 &middot; No. 003 &middot; Rev. Aug 26</span>
+      </header>
+      <p class="ei-contents">Section 03 of 05 &middot; Next <a href="https://personal.vedsingh.com"><b>Personal</b></a></p>
+
+      <div class="m-controls">
+        <span class="m-status" id="statusSummary" data-state="warn">
+          <span class="m-status-dot"></span>
+          <span id="statusSummaryText">Checking systems&hellip;</span>
+        </span>
+        <button class="m-command-trigger" id="commandTrigger" type="button">
+          <span>Jump anywhere</span>
+          <kbd>Ctrl K</kbd>
+        </button>
+      </div>
+
+      <div class="comic-hero">
+        <p class="comic-eyebrow">Earth-1610 &middot; Media</p>
+        <h1 class="comic-headline">Everything I watch, hear, and read.</h1>
+        <p class="comic-sub">Same index, same numbering, printed in the one panel of this issue that's allowed to shout. The Spider-Verse cell-shading survives here, evolved, and nowhere else.</p>
+      </div>
+
+      <h2 class="ei-section-head" id="categories-heading">Categories</h2>
+      <div class="panel-grid" aria-labelledby="categories-heading">
+        <article class="panel" data-monitor="Jellyfin">
+          <div class="panel-top">
+            <span class="panel-no">01</span>
+            <span class="panel-dot" data-role="dot"></span>
+          </div>
+          <h3 class="red"><a href="https://movies.vedsingh.com">Movies &amp; TV</a></h3>
+          <p>Streaming library, requests, watch history.</p>
+          <div class="panel-foot">
+            <span class="panel-tag">Jellyfin &middot; <span data-role="state">checking</span></span>
+            <a class="panel-action" href="https://seerr.vedsingh.com">+ Request</a>
+          </div>
+        </article>
+        <article class="panel" data-monitor="Navidrome">
+          <div class="panel-top">
+            <span class="panel-no">02</span>
+            <span class="panel-dot" data-role="dot"></span>
+          </div>
+          <h3 class="cyan"><a href="https://music.vedsingh.com">Music</a></h3>
+          <p>Full catalog, playlists, now-playing.</p>
+          <div class="panel-foot">
+            <span class="panel-tag">Navidrome &middot; <span data-role="state">checking</span></span>
+            <a class="panel-action" href="https://aurral.vedsingh.com">+ Add Music</a>
+          </div>
+        </article>
+        <article class="panel" data-monitor="Kavita">
+          <div class="panel-top">
+            <span class="panel-no">03</span>
+            <span class="panel-dot" data-role="dot"></span>
+          </div>
+          <h3 class="red"><a href="https://books.vedsingh.com">Books</a></h3>
+          <p>Comics and prose, synced everywhere.</p>
+          <div class="panel-foot">
+            <span class="panel-tag">Kavita &middot; <span data-role="state">checking</span></span>
+          </div>
+        </article>
+        <article class="panel" data-monitor="Audiobookshelf">
+          <div class="panel-top">
+            <span class="panel-no">04</span>
+            <span class="panel-dot" data-role="dot"></span>
+          </div>
+          <h3 class="cyan"><a href="https://audiobooks.vedsingh.com">Audiobooks</a></h3>
+          <p>Continue listening, anywhere.</p>
+          <div class="panel-foot">
+            <span class="panel-tag">Audiobookshelf &middot; <span data-role="state">checking</span></span>
+          </div>
+        </article>
+        <article class="panel" data-monitor="RetroAssembly">
+          <div class="panel-top">
+            <span class="panel-no">05</span>
+            <span class="panel-dot" data-role="dot"></span>
+          </div>
+          <h3 class="red"><a href="https://games.vedsingh.com">Games</a></h3>
+          <p>Retro library, playable in-browser.</p>
+          <div class="panel-foot">
+            <span class="panel-tag">RetroAssembly &middot; <span data-role="state">checking</span></span>
+          </div>
+        </article>
+      </div>
+
+      <section class="pulse m-section" aria-labelledby="pulse-heading">
+        <div class="pulse-head">
+          <h2 id="pulse-heading">System Pulse</h2>
+          <span class="pulse-note" id="pulseNote">Waiting for Uptime Kuma&hellip;</span>
+        </div>
+        <div class="pulse-grid">
+          <div><span>Online</span><strong id="pulseOnline">&mdash;</strong></div>
+          <div><span>Degraded</span><strong id="pulseDegraded">&mdash;</strong></div>
+          <div><span>Offline</span><strong id="pulseOffline">&mdash;</strong></div>
+          <div><span>Uptime</span><strong id="pulseUptime">&mdash;</strong></div>
+        </div>
+      </section>
+
+      <section class="m-section" aria-labelledby="activity-heading">
+        <div class="m-section-head"><h2 id="activity-heading" style="all:inherit;">Current Activity</h2></div>
+        <div class="activity-grid" id="activityGrid" aria-live="polite">
+          <div class="activity-empty"><strong>Loading&hellip;</strong><span>Checking what's playing.</span></div>
+        </div>
+      </section>
+
+      <section class="m-section" aria-labelledby="recent-heading">
+        <div class="m-section-head">
+          <h2 id="recent-heading" style="all:inherit;">Recently Added</h2>
+          <a id="recentOpenLink" href="https://movies.vedsingh.com">Open Movies &amp; TV &rarr;</a>
+        </div>
+        <div class="media-tabs" id="recentTabs" role="tablist" aria-label="Recently added library">
+          <button class="media-tab active" type="button" role="tab" aria-selected="true" data-recent-source="movies">Movies &amp; TV</button>
+          <button class="media-tab" type="button" role="tab" aria-selected="false" data-recent-source="music">Music</button>
+          <button class="media-tab" type="button" role="tab" aria-selected="false" data-recent-source="books">Books</button>
+          <button class="media-tab" type="button" role="tab" aria-selected="false" data-recent-source="audiobooks">Audiobooks</button>
+          <button class="media-tab" type="button" role="tab" aria-selected="false" data-recent-source="games">Games</button>
+        </div>
+        <div class="strip" id="recentGrid" aria-live="polite"></div>
+      </section>
+
+      <footer class="ei-footer">
+        <span>VED SINGH / MEDIA</span>
+        <span>EARTH-1610 EDITION</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="command-backdrop" id="commandBackdrop" hidden>
+    <div class="command-palette" role="dialog" aria-modal="true" aria-label="Jump to a service">
+      <div class="command-search">
+        <span aria-hidden="true">&#9906;</span>
+        <input id="commandInput" autocomplete="off" placeholder="Jump to a service&hellip;" aria-label="Search services">
+        <button class="command-close" id="commandClose" type="button">Esc</button>
+      </div>
+      <div class="command-results" id="commandResults"></div>
+      <div class="command-footer"><span>&uarr;&darr; navigate</span><span>&crarr; open</span></div>
+    </div>
+  </div>
+
+  <script src="/assets/media.js" defer></script>
+</body>
+</html>

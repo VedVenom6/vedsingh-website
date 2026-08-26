@@ -1,10 +1,10 @@
 {
-  "name": "Ved Singh",
-  "short_name": "Ved Singh",
+  "name": "Ved Singh Media",
+  "short_name": "VS Media",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#040711",
-  "theme_color": "#050816",
+  "background_color": "#10131b",
+  "theme_color": "#10131b",
   "icons": [
     {
       "src": "/icon.svg",
