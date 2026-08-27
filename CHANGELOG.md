@@ -1,5 +1,38 @@
 # Ved Singh Portal Version History
 
+## 2.1.0 (unreleased, on `redesign/v2`)
+- Built `lab.vedsingh.com` as a fresh Earth-928 world: deep navy/graphite
+  background, restrained cyan accent, technical annotation language, and
+  a subtle schematic grid, on a new self-contained `lab.css` (own rail
+  nav, no dependency on the shared `editorial.css`/`tokens-futures.css`
+  system). Content focuses on local AI, server experiments, Linux
+  experiments, prototypes, and experimental tooling — explicitly not
+  settled personal systems, which stay on Personal.
+- Refined Home (`vedsingh.com`) with an explicit first-person
+  introduction in the hero, alongside its existing section index.
+- Finished per-world PWA identity cleanup: every world (Home, Work,
+  Media, Personal, Lab) now has its own self-contained
+  `manifest.webmanifest` and `/icons/<world>.svg` icon, used for both
+  the favicon and the Apple touch icon. Removed the Host-header-based
+  dynamic `/manifest.webmanifest` and `/app-icon.svg`/`/apple-touch-icon.svg`
+  resolution from the Worker in favor of these static, per-path files —
+  the same self-contained pattern already proven by Work and Personal.
+  Updated Media's service worker precache list and image-fallback paths
+  to match, and bumped its cache version.
+- Removed `tokens-mono.css`, `tokens-warm.css`, and `tokens-futures.css`
+  — dead files once Work, Personal, and now Lab forked into their own
+  bespoke stylesheets.
+- Removed the two remaining user-facing bracketed placeholders before
+  they could ship: Lab's "Currently Testing" module (`[Current build]`,
+  `[Current experiment]`, `[Current prototype]`) and Personal's
+  "Currently" card row (`[Book Title]`, `[Game Title]`, `[Note Title]`).
+  Both were cut entirely rather than backfilled with invented content —
+  each was a self-contained section whose own heading/intro had no
+  meaning without real data, so partial edits would have left dangling
+  copy. Confirmed no awkward gap results: the footer's own top margin
+  provides the spacing in both cases.
+- No visual or content changes to Work, Media, or Personal.
+
 ## 2.0.0
 - Platform split across five hostnames: vedsingh.com (hub), work.vedsingh.com, media.vedsingh.com, personal.vedsingh.com, and lab.vedsingh.com, served by one Worker via hostname-aware routing.
 - New Editorial Index design system: a left index rail, numbered sections, and a shared typography and spacing system, in place of the Spider-Verse shell, shared across all five worlds via `public/assets/editorial.css`.

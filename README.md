@@ -17,22 +17,35 @@ theme, one fixed identity per domain. Only the Earth number is ever
 shown in the UI; retired nicknames like "Noir," "2099," or "Ultimate"
 do not appear anywhere.
 
-| Domain | World | Earth | Character | Tokens |
+| Domain | World | Earth | Character | Stylesheet |
 | --- | --- | --- | --- | --- |
-| `vedsingh.com` | Central hub | Earth-616 | Balanced, editorial, foundational | `tokens-cool.css` |
-| `work.vedsingh.com` | Work — HLIF and other projects | Earth-90214 | Restrained, monochrome, professional | `tokens-mono.css` |
-| `media.vedsingh.com` | Media — the designed media portal | Earth-1610 | Kinetic, graphic, expressive (evolved Spider-Verse) | `media.css` (own stylesheet) |
-| `personal.vedsingh.com` | Personal — settled systems, self-hosted notes, interests | Earth-65 | Warmer, creative, personal | `tokens-warm.css` |
-| `lab.vedsingh.com` | Lab — prototypes, local AI, server/Linux tinkering | Earth-928 | Futuristic, technical, experimental | `tokens-futures.css` |
+| `vedsingh.com` | Central hub | Earth-616 | Balanced, editorial, foundational | `editorial.css` + `tokens-cool.css` |
+| `work.vedsingh.com` | Work — HLIF and other projects | Earth-90214 | Restrained, monochrome, professional | `work.css` (own stylesheet) |
+| `media.vedsingh.com` | Media — the designed media portal | Earth-1610 | Kinetic, graphic, expressive (evolved Spider-Verse) | `editorial.css` chrome + `media.css` content |
+| `personal.vedsingh.com` | Personal — settled systems, self-hosted notes, interests | Earth-65 | Warmer, creative, personal | `personal.css` (own stylesheet) |
+| `lab.vedsingh.com` | Lab — local AI, server/Linux experiments, prototypes | Earth-928 | Deep navy/graphite, cyan accent, technical/schematic | `lab.css` (own stylesheet) |
 
-All five worlds are built from the same `public/assets/editorial.css`
-(rail nav, mobile strip nav, masthead, index list, typography scale,
-spacing rhythm, motion/focus/reduced-motion rules) — only Media
-diverges into its own stylesheet for its content area. Each world's
-Earth identity is a token-file swap (palette, texture, atmosphere),
-not a different structural system: shared platform DNA comes from
-navigation structure, typography discipline, spacing rhythm, motion
-philosophy, and interaction quality, never from sharing one look.
+Every world shares `public/assets/base.css` (reset, skip-link, focus-visible,
+44px touch targets, `prefers-reduced-motion`) unconditionally. Home is
+the one world still built on the shared `editorial.css` rail-nav system
+(the "Editorial Index" base identity the others diverge from), and
+Media reuses that same chrome for its rail/masthead/footer while its
+content area is fully its own. Work, Personal, and Lab each fork into
+a fully self-contained, bespoke stylesheet — their own nav markup,
+palette, and layout — rather than a token-file swap on the shared
+system. Shared platform DNA comes from navigation structure,
+typography discipline, spacing rhythm, motion philosophy, and
+interaction quality, never from literally sharing one stylesheet.
+
+Each world is also fully self-contained for PWA/browser metadata: its
+own `manifest.webmanifest` at its own path (`/manifest.webmanifest` for
+Home, `/work/manifest.webmanifest`, `/media/manifest.webmanifest`,
+`/personal/manifest.webmanifest`, `/lab/manifest.webmanifest`), and its
+own icon at `/icons/<world>.svg` used for both the favicon and the
+Apple touch icon. There is no shared `/app-icon.svg` or
+`/apple-touch-icon.svg` resolved dynamically by Host header — that
+approach was replaced with these static, self-contained paths, which
+are simpler and were already proven out by Work and Personal.
 
 ## Existing service subdomains (unchanged)
 
@@ -66,8 +79,8 @@ to the matching service subdomain (see `LEGACY_PORTAL_REDIRECTS` in
   service.
 - Seerr request and Aurral add-music quick actions on the relevant
   category panels.
-- Every category links directly to its real service subdomain; there
-  is no embedded/iframe shell to fall back from.
+- Each category also links directly to its real service subdomain, so
+  the embedded panel above always has a same-content escape hatch.
 
 All of the above degrade to a clean empty or "unavailable" state
 automatically when a backend integration isn't configured or is
