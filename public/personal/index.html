@@ -3,79 +3,75 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4efe6">
+  <meta name="theme-color" content="#3fc6ff">
+  <meta name="application-name" content="Ved Singh Personal">
+  <meta name="apple-mobile-web-app-title" content="VS Personal">
   <meta name="description" content="Ved Singh — Personal. Settled personal systems, self-hosted notes, reading, gaming, and interests.">
   <title>Personal — Ved Singh</title>
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/personal/manifest.webmanifest">
+  <link rel="icon" href="/icons/personal.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/personal.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,500;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/base.css">
-  <link rel="stylesheet" href="/assets/tokens-warm.css">
-  <link rel="stylesheet" href="/assets/editorial.css">
+  <link rel="stylesheet" href="/assets/personal.css">
 </head>
-<body class="editorial">
+<body class="personal-world">
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <div class="ei-page">
-    <nav class="ei-rail" aria-label="Platform worlds">
-      <a class="ei-rail-mark" href="https://vedsingh.com" aria-label="Ved Singh, home">VS</a>
-      <ul class="ei-rail-nav">
-        <li class="ei-rail-item"><a href="https://vedsingh.com">01. Home</a></li>
-        <li class="ei-rail-item"><a href="https://work.vedsingh.com">02. Work</a></li>
-        <li class="ei-rail-item"><a href="https://media.vedsingh.com">03. Media</a></li>
-        <li class="ei-rail-item current"><a href="/" aria-current="page"><span class="num">04.</span> Personal</a></li>
-        <li class="ei-rail-item"><a href="https://lab.vedsingh.com">05. Lab</a></li>
+  <div class="personal-page">
+    <nav class="personal-rail" aria-label="Platform worlds">
+      <a class="personal-rail-mark" href="https://vedsingh.com" aria-label="Ved Singh, home">VS</a>
+      <ul class="personal-rail-nav">
+        <li><a href="https://vedsingh.com">01. Home</a></li>
+        <li><a href="https://work.vedsingh.com">02. Work</a></li>
+        <li><a href="https://media.vedsingh.com">03. Media</a></li>
+        <li class="current"><a href="/" aria-current="page"><span>04.</span> Personal</a></li>
+        <li><a href="https://lab.vedsingh.com">05. Lab</a></li>
       </ul>
-      <span class="ei-rail-foot">VEDSINGH.COM / INDEX</span>
+      <span class="personal-rail-foot">VEDSINGH.COM / INDEX</span>
     </nav>
-
-    <nav class="ei-strip" aria-label="Platform worlds">
-      <ul class="ei-strip-list">
-        <li class="ei-strip-item"><a href="https://vedsingh.com">01</a></li>
-        <li class="ei-strip-item"><a href="https://work.vedsingh.com">02</a></li>
-        <li class="ei-strip-item"><a href="https://media.vedsingh.com">03</a></li>
-        <li class="ei-strip-item current"><a href="/" aria-current="page">04</a></li>
-        <li class="ei-strip-item"><a href="https://lab.vedsingh.com">05</a></li>
+    <nav class="personal-strip" aria-label="Platform worlds">
+      <ul>
+        <li><a href="https://vedsingh.com" aria-label="Home">01</a></li>
+        <li><a href="https://work.vedsingh.com" aria-label="Work">02</a></li>
+        <li><a href="https://media.vedsingh.com" aria-label="Media">03</a></li>
+        <li class="current"><a href="/" aria-current="page" aria-label="Personal">04</a></li>
+        <li><a href="https://lab.vedsingh.com" aria-label="Lab">05</a></li>
       </ul>
     </nav>
-
-    <main class="ei-main" id="main">
-      <header class="ei-masthead">
-        <span class="ei-wordmark">VED SINGH</span>
-        <span class="ei-meta">ISSUE 2026.08 &middot; No. 004 &middot; Rev. Aug 26</span>
+    <main class="personal-main" id="main">
+      <header class="personal-masthead">
+        <a href="https://vedsingh.com" class="personal-wordmark">VED SINGH</a>
+        <span class="personal-earth">EARTH-65</span>
       </header>
-      <p class="ei-contents">Section 04 of 05 &middot; Next <a href="https://lab.vedsingh.com"><b>Lab</b></a></p>
 
-      <div class="ei-hero">
-        <div class="ei-hero-main">
-          <p class="ei-eyebrow">Off the Clock</p>
-          <h1 class="ei-headline ei-headline-italic">What I keep, read, play, and pay attention to.</h1>
-          <p class="ei-sub">The quieter half of the issue: settled personal systems, collections, and running notes, kept for myself as much as for anyone reading.</p>
+      <section class="personal-intro" aria-labelledby="personal-title">
+        <div class="personal-intro-copy">
+          <p class="personal-kicker">Off the clock</p>
+          <h1 id="personal-title">What I keep, <mark>read, and play</mark> when no one's asking.</h1>
+          <p class="personal-deck">The quieter half of the issue: settled personal systems, collections, and running notes, kept for myself first, readers second.</p>
         </div>
-        <aside class="ei-hero-margin">
-          <p>Kept for myself first. Readers second.</p>
-        </aside>
-      </div>
+        <div class="personal-doodle" aria-hidden="true">
+          <div class="doodle-dots"><span></span><span></span></div>
+          <p class="personal-tag">Kept for myself first.<br>Readers second.</p>
+        </div>
+      </section>
 
-      <h2 class="ei-section-head" id="collections-heading">Systems &amp; Interests</h2>
-      <ul class="ei-idx-list" aria-labelledby="collections-heading">
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">01</span><span class="ei-idx-name">Collections</span><span class="ei-idx-desc">Physical and digital things I keep track of.</span></span></li>
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">02</span><span class="ei-idx-name">Reading</span><span class="ei-idx-desc">What I'm reading, and what I've finished.</span></span></li>
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">03</span><span class="ei-idx-name">Gaming</span><span class="ei-idx-desc">Currently playing, backlog, and favorites.</span></span></li>
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">04</span><span class="ei-idx-name">Notes</span><span class="ei-idx-desc">A settled, self-hosted Obsidian and sync workflow, plus selected public notes.</span></span></li>
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">05</span><span class="ei-idx-name">Interests</span><span class="ei-idx-desc">Ongoing personal interests outside work and media.</span></span></li>
-      </ul>
+      <section aria-labelledby="interests-title">
+        <header class="personal-rule"><h2 id="interests-title">Systems &amp; Interests</h2><span>05 tracked</span></header>
+        <div class="personal-index">
+          <div class="personal-row"><span class="row-num n1">01</span><div><strong>Collections</strong><p>Physical and digital things I keep track of.</p></div></div>
+          <div class="personal-row"><span class="row-num n2">02</span><div><strong>Reading</strong><p>What I'm reading, and what I've finished.</p></div></div>
+          <div class="personal-row"><span class="row-num n1">03</span><div><strong>Gaming</strong><p>Currently playing, backlog, and favorites.</p></div></div>
+          <div class="personal-row"><span class="row-num n2">04</span><div><strong>Notes</strong><p>A settled, self-hosted Obsidian and sync workflow, plus selected public notes.</p></div></div>
+          <div class="personal-row"><span class="row-num n1">05</span><div><strong>Interests</strong><p>Ongoing personal interests outside work and media.</p></div></div>
+        </div>
+      </section>
 
-      <div class="ei-currently">
-        <div class="ei-currently-item"><h2>Currently Reading</h2><p>[Book Title]</p></div>
-        <div class="ei-currently-item"><h2>Currently Playing</h2><p>[Game Title]</p></div>
-        <div class="ei-currently-item"><h2>Latest Note</h2><p>[Note Title]</p></div>
-      </div>
-
-      <footer class="ei-footer">
+      <footer class="personal-footer">
         <span>VED SINGH / PERSONAL</span>
-        <span>EARTH-65 / WARM EDITION</span>
+        <span>EARTH-65 / SCRAPBOOK EDITION</span>
       </footer>
     </main>
   </div>
