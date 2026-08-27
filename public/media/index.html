@@ -4,10 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10131b">
+  <meta name="application-name" content="Ved Singh Media">
+  <meta name="apple-mobile-web-app-title" content="VS Media">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="description" content="Ved Singh Media — movies, music, books, audiobooks, and games, in one portal.">
   <title>Media — Ved Singh</title>
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/media/manifest.webmanifest">
+  <link rel="icon" href="/icons/media.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/media.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Anton&display=swap" rel="stylesheet">
@@ -16,7 +20,7 @@
   <link rel="stylesheet" href="/assets/editorial.css">
   <link rel="stylesheet" href="/assets/media.css">
 </head>
-<body class="editorial">
+<body class="editorial media-world">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <div class="ei-page">
@@ -61,10 +65,53 @@
       </div>
 
       <div class="comic-hero">
-        <p class="comic-eyebrow">Earth-1610 &middot; Media</p>
-        <h1 class="comic-headline">Everything I watch, hear, and read.</h1>
-        <p class="comic-sub">Same index, same numbering, printed in the one panel of this issue that's allowed to shout. The Spider-Verse cell-shading survives here, evolved, and nowhere else.</p>
+        <div class="comic-hero-copy">
+          <p class="comic-eyebrow">Earth-1610 &middot; Media</p>
+          <h1 class="comic-headline">Everything I <span>watch, hear,</span> and read.</h1>
+          <p class="comic-sub">Movies, music, books, audiobooks, and games. One live index, drawn with louder ink.</p>
+        </div>
+        <span class="comic-issue-stamp">MEDIA<br>NO. 003</span>
       </div>
+
+      <section class="service-deck" aria-labelledby="service-deck-title">
+        <div class="service-deck-heading">
+          <div>
+            <p class="service-deck-kicker">Choose a channel</p>
+            <h2 id="service-deck-title">Media deck</h2>
+          </div>
+          <div class="service-deck-actions">
+            <a id="serviceSecondary" class="service-action secondary" href="https://seerr.vedsingh.com">Request with Seerr +</a>
+            <a id="serviceDirect" class="service-action" href="https://movies.vedsingh.com" target="_blank" rel="noopener">Open Jellyfin directly &#8599;</a>
+          </div>
+        </div>
+        <div class="service-tabs" id="serviceTabs" role="tablist" aria-label="Media services">
+          <button class="service-tab active" id="service-tab-movies" type="button" role="tab" aria-selected="true" aria-controls="servicePanel" data-service="movies">Movies &amp; TV</button>
+          <button class="service-tab" id="service-tab-music" type="button" role="tab" aria-selected="false" aria-controls="servicePanel" tabindex="-1" data-service="music">Music</button>
+          <button class="service-tab" id="service-tab-books" type="button" role="tab" aria-selected="false" aria-controls="servicePanel" tabindex="-1" data-service="books">Books</button>
+          <button class="service-tab" id="service-tab-audiobooks" type="button" role="tab" aria-selected="false" aria-controls="servicePanel" tabindex="-1" data-service="audiobooks">Audiobooks</button>
+          <button class="service-tab" id="service-tab-games" type="button" role="tab" aria-selected="false" aria-controls="servicePanel" tabindex="-1" data-service="games">Games</button>
+          <button class="service-tab" id="service-tab-status" type="button" role="tab" aria-selected="false" aria-controls="servicePanel" tabindex="-1" data-service="status">Status</button>
+        </div>
+        <div class="service-panel" id="servicePanel" role="tabpanel" aria-labelledby="service-tab-movies">
+          <div class="service-frame-toolbar">
+            <div><span class="frame-live-dot"></span><strong id="frameServiceName">Jellyfin</strong></div>
+            <p id="frameDescription">Your Movies &amp; TV library inside the Media shell.</p>
+          </div>
+          <iframe id="serviceFrame" class="service-frame" title="Jellyfin embedded application" src="https://movies.vedsingh.com" allow="autoplay; fullscreen; picture-in-picture; clipboard-read; clipboard-write" allowfullscreen></iframe>
+          <div class="service-frame-blocked" id="serviceFrameBlocked" hidden>
+            <span class="blocked-burst" aria-hidden="true">&#8599;</span>
+            <p class="blocked-kicker">The channel is still here</p>
+            <h3 id="blockedServiceName">Open this service directly</h3>
+            <p id="blockedReason">This service currently prevents cross-site framing.</p>
+            <a id="blockedDirectLink" class="service-action" href="https://movies.vedsingh.com" target="_blank" rel="noopener">Open directly &#8599;</a>
+          </div>
+          <div class="frame-fallback">
+            <strong>Blank panel?</strong>
+            <span id="frameFallbackText">Jellyfin may block framing with its security headers.</span>
+            <a id="frameFallbackLink" href="https://movies.vedsingh.com" target="_blank" rel="noopener">Open directly &#8599;</a>
+          </div>
+        </div>
+      </section>
 
       <h2 class="ei-section-head" id="categories-heading">Categories</h2>
       <div class="panel-grid" aria-labelledby="categories-heading">
@@ -73,7 +120,7 @@
             <span class="panel-no">01</span>
             <span class="panel-dot" data-role="dot"></span>
           </div>
-          <h3 class="red"><a href="https://movies.vedsingh.com">Movies &amp; TV</a></h3>
+          <h3 class="red"><span class="service-icon" aria-hidden="true">&#9654;</span><a href="https://movies.vedsingh.com">Movies &amp; TV</a></h3>
           <p>Streaming library, requests, watch history.</p>
           <div class="panel-foot">
             <span class="panel-tag">Jellyfin &middot; <span data-role="state">checking</span></span>
@@ -85,7 +132,7 @@
             <span class="panel-no">02</span>
             <span class="panel-dot" data-role="dot"></span>
           </div>
-          <h3 class="cyan"><a href="https://music.vedsingh.com">Music</a></h3>
+          <h3 class="cyan"><span class="service-icon" aria-hidden="true">&#9834;</span><a href="https://music.vedsingh.com">Music</a></h3>
           <p>Full catalog, playlists, now-playing.</p>
           <div class="panel-foot">
             <span class="panel-tag">Navidrome &middot; <span data-role="state">checking</span></span>
@@ -97,7 +144,7 @@
             <span class="panel-no">03</span>
             <span class="panel-dot" data-role="dot"></span>
           </div>
-          <h3 class="red"><a href="https://books.vedsingh.com">Books</a></h3>
+          <h3 class="red"><span class="service-icon" aria-hidden="true">&#9636;</span><a href="https://books.vedsingh.com">Books</a></h3>
           <p>Comics and prose, synced everywhere.</p>
           <div class="panel-foot">
             <span class="panel-tag">Kavita &middot; <span data-role="state">checking</span></span>
@@ -108,7 +155,7 @@
             <span class="panel-no">04</span>
             <span class="panel-dot" data-role="dot"></span>
           </div>
-          <h3 class="cyan"><a href="https://audiobooks.vedsingh.com">Audiobooks</a></h3>
+          <h3 class="cyan"><span class="service-icon" aria-hidden="true">&#9673;</span><a href="https://audiobooks.vedsingh.com">Audiobooks</a></h3>
           <p>Continue listening, anywhere.</p>
           <div class="panel-foot">
             <span class="panel-tag">Audiobookshelf &middot; <span data-role="state">checking</span></span>
@@ -119,7 +166,7 @@
             <span class="panel-no">05</span>
             <span class="panel-dot" data-role="dot"></span>
           </div>
-          <h3 class="red"><a href="https://games.vedsingh.com">Games</a></h3>
+          <h3 class="red"><span class="service-icon" aria-hidden="true">&#10022;</span><a href="https://games.vedsingh.com">Games</a></h3>
           <p>Retro library, playable in-browser.</p>
           <div class="panel-foot">
             <span class="panel-tag">RetroAssembly &middot; <span data-role="state">checking</span></span>

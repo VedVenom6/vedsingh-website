@@ -1,0 +1,18 @@
+{
+  "name": "Ved Singh Media — Earth-1610",
+  "short_name": "VS Media",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4ead6",
+  "theme_color": "#10131b",
+  "icons": [
+    {
+      "src": "/icons/media.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

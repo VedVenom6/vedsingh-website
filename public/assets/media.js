@@ -7,14 +7,14 @@ const $$ = (q, root = document) => [...root.querySelectorAll(q)];
    absorb them into its own paths.
    ========================================================= */
 const commands = [
-  { label: "Movies & TV", hint: "Jellyfin", url: "https://movies.vedsingh.com", keys: "movies tv jellyfin watch" },
+  { label: "Movies & TV", hint: "Jellyfin", service: "movies", keys: "movies tv jellyfin watch" },
   { label: "Request Something", hint: "Seerr", url: "https://seerr.vedsingh.com", keys: "requests seerr movies shows" },
-  { label: "Music", hint: "Navidrome", url: "https://music.vedsingh.com", keys: "music navidrome songs albums" },
+  { label: "Music", hint: "Navidrome", service: "music", keys: "music navidrome songs albums" },
   { label: "Add Music", hint: "Aurral", url: "https://aurral.vedsingh.com", keys: "add request music aurral lidarr albums artists" },
-  { label: "Books & Comics", hint: "Kavita", url: "https://books.vedsingh.com", keys: "books comics manga kavita" },
-  { label: "Audiobooks", hint: "Audiobookshelf", url: "https://audiobooks.vedsingh.com", keys: "audiobooks listen" },
-  { label: "Games", hint: "RetroAssembly", url: "https://games.vedsingh.com", keys: "games retroassembly roms play" },
-  { label: "System Status", hint: "Uptime Kuma", url: "https://status.vedsingh.com", keys: "status uptime health" },
+  { label: "Books & Comics", hint: "Kavita", service: "books", keys: "books comics manga kavita" },
+  { label: "Audiobooks", hint: "Audiobookshelf", service: "audiobooks", keys: "audiobooks listen" },
+  { label: "Games", hint: "RetroAssembly", service: "games", keys: "games retroassembly roms play" },
+  { label: "System Status", hint: "Uptime Kuma", service: "status", keys: "status uptime health" },
   { label: "Home", hint: "vedsingh.com", url: "https://vedsingh.com", keys: "home hub index" },
   { label: "Work", hint: "HLIF and projects", url: "https://work.vedsingh.com", keys: "work hlif projects" },
   { label: "Personal", hint: "Collections, reading, notes", url: "https://personal.vedsingh.com", keys: "personal collections reading notes" },
@@ -34,6 +34,121 @@ const escapeHTML = value =>
   String(value ?? "").replace(/[&<>"']/g, char => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
   }[char]));
+
+/* =========================================================
+   MEDIA DECK — every tab attempts an in-shell iframe embed
+   first. "Open directly" is a secondary link, never the
+   default tab content — only a service confirmed (by live
+   response headers) to block cross-origin framing falls back
+   to the full blocked-panel takeover instead of the iframe.
+
+   Live header check, 2026-08-27, from media.vedsingh.com's
+   perspective:
+     - movies.vedsingh.com (Jellyfin): 200, no X-Frame-Options,
+       no CSP frame-ancestors. Framing unrestricted. canFrame: true.
+     - books.vedsingh.com (Kavita): 200, no X-Frame-Options, no
+       CSP frame-ancestors (AllowIFraming: true upstream).
+       Framing unrestricted. canFrame: true.
+     - music.vedsingh.com (Navidrome): fixed upstream 2026-08-27.
+       Re-verified live: 200, no X-Frame-Options, CSP
+       `frame-ancestors 'self' https://vedsingh.com https://media.vedsingh.com`.
+       media.vedsingh.com is now in the allowlist. canFrame: true.
+     - audiobooks.vedsingh.com, games.vedsingh.com,
+       status.vedsingh.com: all three origins were unreachable at
+       check time (Cloudflare 502 "Bad Gateway" — the tunnel/
+       origin was down, not a framing policy; the SAMEORIGIN
+       header on those 502s is Cloudflare's own error-page
+       header, not the app's). No confirmed block, and history
+       says all three have worked embedded before (Audiobookshelf
+       has no known restrictive default; RetroAssembly has no
+       known restrictive default; Uptime Kuma previously required
+       UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN=true, which should
+       already be set from earlier work). Defaulting these to
+       canFrame: true to attempt the embed; re-verify headers once
+       the origins are back up and flip to false with a
+       blockedReason if any of them turn out to still send a
+       restrictive X-Frame-Options/CSP.
+   ========================================================= */
+
+const serviceRoutes = {
+  movies: { label: "Movies & TV", name: "Jellyfin", description: "Your Movies & TV library inside the Media shell.", embed: "https://movies.vedsingh.com", direct: "https://movies.vedsingh.com", canFrame: true, secondaryLabel: "Request with Seerr +", secondary: "https://seerr.vedsingh.com" },
+  music: { label: "Music", name: "Navidrome", description: "Your Navidrome collection inside the Media shell.", embed: "https://music.vedsingh.com", direct: "https://music.vedsingh.com", canFrame: true, secondaryLabel: "Add music with Aurral +", secondary: "https://aurral.vedsingh.com" },
+  books: { label: "Books", name: "Kavita", description: "Books and comics from Kavita inside the Media shell.", embed: "https://books.vedsingh.com", direct: "https://books.vedsingh.com", canFrame: true },
+  audiobooks: { label: "Audiobooks", name: "Audiobookshelf", description: "Your Audiobookshelf library inside the Media shell.", embed: "https://audiobooks.vedsingh.com", direct: "https://audiobooks.vedsingh.com", canFrame: true },
+  games: { label: "Games", name: "RetroAssembly", description: "RetroAssembly inside the Media shell.", embed: "https://games.vedsingh.com", direct: "https://games.vedsingh.com", canFrame: true },
+  status: { label: "Status", name: "Uptime Kuma", description: "The full service-health view from Uptime Kuma.", embed: "https://status.vedsingh.com", direct: "https://status.vedsingh.com", canFrame: true }
+};
+
+let activeService = "movies";
+
+function setServiceRoute(key, { focus = false } = {}) {
+  const config = serviceRoutes[key];
+  if (!config) return;
+  activeService = key;
+
+  $$(".service-tab").forEach(tab => {
+    const active = tab.dataset.service === key;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
+    if (active && focus) tab.focus();
+  });
+
+  const activeTab = $(`.service-tab[data-service="${key}"]`);
+  const panel = $("#servicePanel");
+  if (panel && activeTab) panel.setAttribute("aria-labelledby", activeTab.id);
+  if ($("#frameServiceName")) $("#frameServiceName").textContent = config.name;
+  if ($("#frameDescription")) $("#frameDescription").textContent = config.description;
+  if ($("#frameFallbackText")) $("#frameFallbackText").textContent = `${config.name} may block framing with its security headers.`;
+
+  const frame = $("#serviceFrame");
+  const blocked = $("#serviceFrameBlocked");
+  if (frame) {
+    frame.title = `${config.name} embedded application`;
+    frame.hidden = !config.canFrame;
+    if (config.canFrame && frame.src !== config.embed) frame.src = config.embed;
+    if (!config.canFrame) frame.removeAttribute("src");
+  }
+  if (blocked) blocked.hidden = config.canFrame;
+  if ($("#blockedServiceName")) $("#blockedServiceName").textContent = `Open ${config.name} directly`;
+  if ($("#blockedReason")) $("#blockedReason").textContent = config.blockedReason || `${config.name} currently prevents cross-site framing.`;
+
+  const direct = $("#serviceDirect");
+  const fallback = $("#frameFallbackLink");
+  const blockedDirect = $("#blockedDirectLink");
+  [direct, fallback, blockedDirect].forEach(link => { if (link) link.href = config.direct; });
+  if (direct) direct.textContent = `Open ${config.name} directly ↗`;
+  if (fallback) fallback.textContent = `Open ${config.name} directly ↗`;
+
+  const secondary = $("#serviceSecondary");
+  if (secondary) {
+    secondary.hidden = !config.secondary;
+    if (config.secondary) {
+      secondary.href = config.secondary;
+      secondary.textContent = config.secondaryLabel;
+    }
+  }
+}
+
+$$(".service-tab").forEach(tab => {
+  tab.addEventListener("click", () => setServiceRoute(tab.dataset.service));
+  tab.addEventListener("keydown", event => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const tabs = $$(".service-tab");
+    const current = tabs.indexOf(tab);
+    const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    setServiceRoute(tabs[next].dataset.service, { focus: true });
+  });
+});
+
+const serviceFrame = $("#serviceFrame");
+serviceFrame?.addEventListener("focus", () => $("#servicePanel")?.classList.add("frame-focused"));
+serviceFrame?.addEventListener("blur", () => $("#servicePanel")?.classList.remove("frame-focused"));
+window.addEventListener("blur", () => {
+  if (document.activeElement === serviceFrame) $("#servicePanel")?.classList.add("frame-focused");
+});
+window.addEventListener("focus", () => $("#servicePanel")?.classList.remove("frame-focused"));
 
 /* =========================================================
    UPTIME KUMA STATUS — same /api/status contract as before.
@@ -133,7 +248,7 @@ function renderActivityItem(item) {
 
   return `
     <a class="activity-item" href="${escapeHTML(item.url || "#")}">
-      <img class="activity-art" src="${escapeHTML(item.image || "/icon.svg")}" alt="" loading="lazy">
+      <img class="activity-art" src="${escapeHTML(item.image || "/icons/media.svg")}" alt="" loading="lazy">
       <div>
         <div class="activity-meta">
           <span>${escapeHTML((item.action || "Active").toUpperCase())}</span>
@@ -236,7 +351,7 @@ async function loadRecent(source = recentSource) {
     grid.innerHTML = items.map(item => `
       <div class="strip-card">
         <a class="strip-thumb" href="${escapeHTML(item.url || config.url)}">
-          <img src="${escapeHTML(item.image || "/icon.svg")}" alt="" loading="lazy">
+          <img src="${escapeHTML(item.image || "/icons/media.svg")}" alt="" loading="lazy">
           <span class="k">${escapeHTML(item.type || config.label)}</span>
         </a>
         <div class="strip-title">${escapeHTML(item.title || "Untitled")}</div>
@@ -287,7 +402,7 @@ function renderCommands(query = "") {
 
   results.innerHTML = list.length
     ? list.map((command, index) => `
-        <button class="command-item ${index === selectedCommand ? "selected" : ""}" data-url="${escapeHTML(command.url)}" type="button">
+        <button class="command-item ${index === selectedCommand ? "selected" : ""}" ${command.service ? `data-service="${escapeHTML(command.service)}"` : `data-url="${escapeHTML(command.url)}"`} type="button">
           <span>${escapeHTML(command.label)}<br><small>${escapeHTML(command.hint)}</small></span>
           <span aria-hidden="true">&#8599;</span>
         </button>
@@ -296,6 +411,13 @@ function renderCommands(query = "") {
 
   $$(".command-item[data-url]").forEach(button => {
     button.addEventListener("click", () => { window.location.href = button.dataset.url; });
+  });
+  $$(".command-item[data-service]").forEach(button => {
+    button.addEventListener("click", () => {
+      setServiceRoute(button.dataset.service);
+      closePalette();
+      $("#servicePanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   });
 }
 
@@ -356,7 +478,7 @@ document.addEventListener("keydown", event => {
     return;
   }
 
-  const items = $$(".command-item[data-url]");
+  const items = $$(".command-item[data-url], .command-item[data-service]");
   if (!items.length) return;
 
   if (event.key === "ArrowDown") {
@@ -390,6 +512,7 @@ if ("serviceWorker" in navigator) {
 loadStatus();
 loadActivity();
 loadRecent();
+setServiceRoute(activeService);
 
 setInterval(loadStatus, 60000);
 setInterval(loadActivity, 30000);
