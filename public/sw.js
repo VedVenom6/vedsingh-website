@@ -1,5 +1,5 @@
 const CACHE_PREFIX = "ved-media-";
-const CACHE = `${CACHE_PREFIX}2.0.1`;
+const CACHE = `${CACHE_PREFIX}2.2.0`;
 const PRECACHE = [
   "/",
   "/assets/base.css",
@@ -7,8 +7,8 @@ const PRECACHE = [
   "/assets/editorial.css",
   "/assets/media.css",
   "/assets/media.js",
-  "/icon.svg",
-  "/manifest.webmanifest"
+  "/icons/media.svg",
+  "/media/manifest.webmanifest"
 ];
 
 self.addEventListener("install", event => {
