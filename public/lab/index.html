@@ -3,78 +3,94 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d1420">
-  <meta name="description" content="Ved Singh — Lab. Prototypes, local AI testing, server and Linux tinkering, and systems under exploration.">
+  <meta name="theme-color" content="#0a0f16">
+  <meta name="application-name" content="Ved Singh Lab">
+  <meta name="apple-mobile-web-app-title" content="VS Lab">
+  <meta name="description" content="Ved Singh — Lab. Local AI, Linux and server experiments, prototypes, and tooling still being tested.">
   <title>Lab — Ved Singh</title>
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/lab/manifest.webmanifest">
+  <link rel="icon" href="/icons/lab.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/lab.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/base.css">
-  <link rel="stylesheet" href="/assets/tokens-futures.css">
-  <link rel="stylesheet" href="/assets/editorial.css">
+  <link rel="stylesheet" href="/assets/lab.css">
 </head>
-<body class="editorial">
+<body class="lab-world">
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <div class="ei-page">
-    <nav class="ei-rail" aria-label="Platform worlds">
-      <a class="ei-rail-mark" href="https://vedsingh.com" aria-label="Ved Singh, home">VS</a>
-      <ul class="ei-rail-nav">
-        <li class="ei-rail-item"><a href="https://vedsingh.com">01. Home</a></li>
-        <li class="ei-rail-item"><a href="https://work.vedsingh.com">02. Work</a></li>
-        <li class="ei-rail-item"><a href="https://media.vedsingh.com">03. Media</a></li>
-        <li class="ei-rail-item"><a href="https://personal.vedsingh.com">04. Personal</a></li>
-        <li class="ei-rail-item current"><a href="/" aria-current="page"><span class="num">05.</span> Lab</a></li>
+  <div class="lab-page">
+    <nav class="lab-rail" aria-label="Platform worlds">
+      <a class="lab-rail-mark" href="https://vedsingh.com" aria-label="Ved Singh, home">VS</a>
+      <ul class="lab-rail-nav">
+        <li><a href="https://vedsingh.com">01. Home</a></li>
+        <li><a href="https://work.vedsingh.com">02. Work</a></li>
+        <li><a href="https://media.vedsingh.com">03. Media</a></li>
+        <li><a href="https://personal.vedsingh.com">04. Personal</a></li>
+        <li class="current"><a href="/" aria-current="page"><span>05.</span> Lab</a></li>
       </ul>
-      <span class="ei-rail-foot">VEDSINGH.COM / INDEX</span>
+      <span class="lab-rail-foot">VEDSINGH.COM / INDEX</span>
     </nav>
-
-    <nav class="ei-strip" aria-label="Platform worlds">
-      <ul class="ei-strip-list">
-        <li class="ei-strip-item"><a href="https://vedsingh.com">01</a></li>
-        <li class="ei-strip-item"><a href="https://work.vedsingh.com">02</a></li>
-        <li class="ei-strip-item"><a href="https://media.vedsingh.com">03</a></li>
-        <li class="ei-strip-item"><a href="https://personal.vedsingh.com">04</a></li>
-        <li class="ei-strip-item current"><a href="/" aria-current="page">05</a></li>
+    <nav class="lab-strip" aria-label="Platform worlds">
+      <ul>
+        <li><a href="https://vedsingh.com" aria-label="Home">01</a></li>
+        <li><a href="https://work.vedsingh.com" aria-label="Work">02</a></li>
+        <li><a href="https://media.vedsingh.com" aria-label="Media">03</a></li>
+        <li><a href="https://personal.vedsingh.com" aria-label="Personal">04</a></li>
+        <li class="current"><a href="/" aria-current="page" aria-label="Lab">05</a></li>
       </ul>
     </nav>
-
-    <main class="ei-main" id="main">
-      <header class="ei-masthead">
-        <span class="ei-wordmark">VED SINGH</span>
-        <span class="ei-meta">ISSUE 2026.08 &middot; No. 005 &middot; Rev. Aug 26</span>
+    <main class="lab-main" id="main">
+      <header class="lab-masthead">
+        <a href="https://vedsingh.com" class="lab-wordmark">VED SINGH</a>
+        <span class="lab-earth">EARTH-928</span>
       </header>
-      <p class="ei-contents">Section 05 of 05 &middot; Next <a href="https://vedsingh.com"><b>Home</b></a></p>
 
-      <div class="ei-hero ei-hero-compact">
-        <div class="ei-hero-main">
-          <p class="ei-eyebrow">Still in Progress</p>
-          <h1 class="ei-headline ei-headline-compact">Local AI, prototypes, and everything still being tested.</h1>
-          <p class="ei-sub">Set in the same index, at a tighter measure. This is the working notebook, not the finished piece.</p>
+      <section class="lab-hero lab-frame" aria-labelledby="lab-title">
+        <p class="lab-eyebrow">Still in progress</p>
+        <h1 id="lab-title">Local AI, servers, and Linux, still being tested.</h1>
+        <p class="lab-deck">The working bench, not the finished room. What's here is running, but not settled — settled personal systems live in <a href="https://personal.vedsingh.com">Personal</a> instead.</p>
+        <p class="lab-hero-foot">
+          <span>STATUS: <b>ACTIVE</b></span>
+          <span>SCOPE: <b>05 AREAS</b></span>
+          <span>REV: <b>AUG 26</b></span>
+        </p>
+      </section>
+
+      <header class="lab-rule"><h2 id="areas-heading">Areas</h2><span>05 tracked</span></header>
+      <div class="lab-areas" aria-labelledby="areas-heading">
+        <div class="lab-area-row">
+          <span class="lab-area-num">01</span>
+          <div><span class="lab-area-name">Local AI</span><p class="lab-area-desc">Models and tooling running on my own hardware, not a hosted API.</p></div>
+          <span class="lab-status is-active">Active</span>
+        </div>
+        <div class="lab-area-row">
+          <span class="lab-area-num">02</span>
+          <div><span class="lab-area-name">Server Experiments</span><p class="lab-area-desc">Hardware, virtualization, and infrastructure under active change.</p></div>
+          <span class="lab-status is-active">Active</span>
+        </div>
+        <div class="lab-area-row">
+          <span class="lab-area-num">03</span>
+          <div><span class="lab-area-name">Linux Experiments</span><p class="lab-area-desc">Distros, configuration, and system-level tinkering.</p></div>
+          <span class="lab-status">Ongoing</span>
+        </div>
+        <div class="lab-area-row">
+          <span class="lab-area-num">04</span>
+          <div><span class="lab-area-name">Prototypes</span><p class="lab-area-desc">Services and workflows being evaluated before they settle anywhere.</p></div>
+          <span class="lab-status">Ongoing</span>
+        </div>
+        <div class="lab-area-row">
+          <span class="lab-area-num">05</span>
+          <div><span class="lab-area-name">Experimental Tooling</span><p class="lab-area-desc">Scripts, small utilities, and one-off builds made to test an idea.</p></div>
+          <span class="lab-status is-active">Active</span>
         </div>
       </div>
 
-      <h2 class="ei-section-head" id="areas-heading">Areas</h2>
-      <ul class="ei-idx-list ei-idx-list-tight" aria-labelledby="areas-heading">
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">01</span><span class="ei-idx-name">Local AI</span><span class="ei-idx-desc">Models and tools running on my own hardware.</span><span class="ei-idx-status">Active</span></span></li>
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">02</span><span class="ei-idx-name">Prototypes</span><span class="ei-idx-desc">Services and workflows being evaluated before they settle.</span><span class="ei-idx-status">Active</span></span></li>
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">03</span><span class="ei-idx-name">Servers</span><span class="ei-idx-desc">Hardware and infrastructure under exploration.</span><span class="ei-idx-status">Ongoing</span></span></li>
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">04</span><span class="ei-idx-name">Linux</span><span class="ei-idx-desc">Configuration, dotfiles, and system-level tinkering.</span><span class="ei-idx-status">Ongoing</span></span></li>
-        <li class="ei-idx-row"><span class="ei-idx-static"><span class="ei-idx-num">05</span><span class="ei-idx-name">Experiments</span><span class="ei-idx-desc">Prototypes and things currently being tested.</span><span class="ei-idx-status">Active</span></span></li>
-      </ul>
+      <div class="lab-boundary">
+        <p>Lab is where things are still moving. Once something settles into daily use, it moves to <a href="https://personal.vedsingh.com">Personal</a> instead of staying here.</p>
+      </div>
 
-      <h2 class="ei-section-head" id="running-heading">Currently Running</h2>
-      <p class="ei-sys-intro">Production services that provide the infrastructure context for ongoing Lab work.</p>
-      <ul class="ei-sys-list" aria-labelledby="running-heading">
-        <li class="ei-sys-row"><span class="ei-sys-name">Jellyfin</span><span class="ei-sys-note">Streams the Movies &amp; TV library.</span></li>
-        <li class="ei-sys-row"><span class="ei-sys-name">Navidrome</span><span class="ei-sys-note">Streams the Music library.</span></li>
-        <li class="ei-sys-row"><span class="ei-sys-name">Kavita</span><span class="ei-sys-note">Serves the Books library.</span></li>
-        <li class="ei-sys-row"><span class="ei-sys-name">Audiobookshelf</span><span class="ei-sys-note">Serves the Audiobooks library.</span></li>
-        <li class="ei-sys-row"><span class="ei-sys-name">Uptime Kuma</span><span class="ei-sys-note">Watches all of the above.</span></li>
-      </ul>
-
-      <footer class="ei-footer ei-footer-compact">
+      <footer class="lab-footer">
         <span>VED SINGH / LAB</span>
         <span>EARTH-928 / PROTOTYPE EDITION</span>
       </footer>
