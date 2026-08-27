@@ -57,6 +57,7 @@ const boundedLimit = value => {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const hostname = (request.headers.get("host") || url.hostname).toLowerCase().split(":")[0];
 
     if (url.pathname === "/api/status") return status(env);
     if (url.pathname === "/api/activity") return activity(env);
@@ -92,10 +93,6 @@ export default {
     // Cloudflare's edge these usually agree, but the header is the
     // one guaranteed to reflect what the client actually asked for
     // (matters for local dev and for any future reverse proxy hop).
-    const hostname = (request.headers.get("host") || url.hostname)
-      .toLowerCase()
-      .split(":")[0];
-
     if (url.pathname === "/" && WORLD_INDEX[hostname]) {
       const assetUrl = new URL(WORLD_INDEX[hostname], url);
       // Drop the original Host header: it still says (say) work.vedsingh.com
@@ -502,7 +499,7 @@ async function kavitaActivityData(env) {
       : undefined,
     image: item.seriesId != null
       ? `/api/media-image?source=kavita&id=${encodeURIComponent(item.seriesId)}`
-      : "/icon.svg",
+      : "/icons/media.svg",
     url: PUBLIC.kavita
   }];
 }
