@@ -1,15 +1,15 @@
 {
-  "name": "Ved Singh Media",
-  "short_name": "VS Media",
+  "name": "Ved Singh — Earth-616",
+  "short_name": "Ved Singh",
   "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#10131b",
-  "theme_color": "#10131b",
+  "background_color": "#f7f6f4",
+  "theme_color": "#f7f6f4",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "/icons/home.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

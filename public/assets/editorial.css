@@ -280,6 +280,15 @@ body.editorial {
   margin: 20px 0 0;
 }
 
+.ei-byline {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  max-width: 600px;
+  margin: 16px 0 0;
+}
+
 /* ---------- Section head ---------- */
 
 .ei-section-head {
